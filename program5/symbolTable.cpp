@@ -3,21 +3,38 @@
 //Program 5
 //November 26th 2018
 
-//hash table for symbol table
-
-const int MAX = 100;
-
-class Node
+//struct for entries
+struct Entry
 {
-  string identifier, scope, type;
-  int lineNo;
-  Node* next;
+  string name;
+  char type;
+  *SymbolTable localSymbolTable;
+};
+
+//Symbol Table class
+class SymbolTable
+{
+  *SymbolTable previous;
+  **SymbolTable next;
+  unordered_map<Entry, int>;
   
-public:
-  Node()
+  SymbolTable(SymbolTable *parent, string value)
   {
-    next = NULL;
+    
   }
   
-  Node(string name, string type,
-}
+  void addLowerSymbolTable()
+  {
+    
+  }
+  
+  void addEntry()
+  {
+    
+  }
+  
+  bool entryExists()
+  {
+    
+  }
+};
