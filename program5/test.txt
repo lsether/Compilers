@@ -1,0 +1,72 @@
+class simpleClass
+{
+  int vardec;
+  type vardec;
+  int [] vardec;
+  type [] vardec;
+
+  constdec ()
+  {
+    int localdec;
+    type localdec;
+    int [] localdec;
+    type [] localdec;
+
+    localdec = 2;
+    this ();
+    this (5+5);
+    print (5*5);
+    if (5==5) return 5;
+    if (6!=5) return 5; else return 6;
+    while (5) localdec = 5;
+    return;
+    
+  }
+
+  void methoddec (int newint)
+  {
+    int localdec;
+
+    localdec (5,6,7);
+    return;
+  }
+
+  int methoddec (int newint, localdec localdec)
+  {
+    int localdec;
+
+    localdec = null;
+    localdec = read();
+    localdec = !5;
+    localdec = -5;
+    localdec = +5;
+    localdec = 5+5;
+    localdec = 5-5;
+    localdec = 5*5;
+    localdec = 5/5;
+    localdec = 5==5;
+    localdec = 5!=5;
+    localdec = 5<5;
+    localdec = 5>5;
+    localdec = 5<=5;
+    localdec = 5>=5;
+    localdec = 5||5;
+    localdec = 5&&5;
+    localdec = 5%5;
+    localdec = new newint ( 5,6);
+    localdec = new int;
+    localdec = new int [5];
+    localdec = new int [];
+    localdec = new int [5][4] [];
+    localdec = (5);
+    localdec = this;
+    localdec = this.hey;
+    localdec = hey;
+    localdec = this[5];
+    localdec = hey[this.hey];
+  }
+}
+
+class test{hey}
+
+clas test {}

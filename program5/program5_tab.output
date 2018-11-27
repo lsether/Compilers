@@ -1,0 +1,3050 @@
+State 25 conflicts: 1 shift/reduce
+State 73 conflicts: 1 shift/reduce
+State 91 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: final $end
+
+    1 final: program
+
+    2 program: classDeclaration program
+    3        | classDeclaration
+
+    4 classDeclaration: CLASS ID classBody
+    5                 | CLASS error classBody
+    6                 | error ID classBody
+    7                 | CLASS ID error
+
+    8 classBody: LBRACE RBRACE
+    9          | LBRACE classBodyMoreVar RBRACE
+   10          | LBRACE classBodyMoreConst RBRACE
+   11          | LBRACE classBodyMoreMethod RBRACE
+   12          | LBRACE classBodyMoreVar classBodyMoreConst RBRACE
+   13          | LBRACE classBodyMoreConst classBodyMoreMethod RBRACE
+   14          | LBRACE classBodyMoreVar classBodyMoreMethod RBRACE
+   15          | LBRACE classBodyMoreVar classBodyMoreConst classBodyMoreMethod RBRACE
+   16          | LBRACE error RBRACE
+
+   17 classBodyMoreVar: varDeclaration
+   18                 | classBodyMoreVar varDeclaration
+
+   19 classBodyMoreConst: constructorDeclaration
+   20                   | classBodyMoreConst constructorDeclaration
+
+   21 classBodyMoreMethod: methodDeclaration
+   22                    | classBodyMoreMethod methodDeclaration
+
+   23 varDeclaration: type ID SEMI
+
+   24 type: INT
+   25     | ID
+   26     | INT LBRACK RBRACK
+   27     | ID LBRACK RBRACK
+
+   28 constructorDeclaration: ID LPAREN parameterList RPAREN block
+
+   29 methodDeclaration: resultType ID LPAREN parameterList RPAREN block
+
+   30 resultType: type
+   31           | VOID
+
+   32 parameterList: %empty
+   33              | parameter
+   34              | parameterList COMMA parameter
+
+   35 parameter: type ID
+
+   36 block: LBRACE RBRACE
+   37      | LBRACE localVarDeclaration RBRACE
+   38      | LBRACE statementMore RBRACE
+   39      | LBRACE localVarDeclaration statementMore RBRACE
+
+   40 localVarDeclaration: type ID SEMI
+   41                    | localVarDeclaration type ID SEMI
+
+   42 statementMore: statement
+   43              | statementMore statement
+
+   44 statement: SEMI
+   45          | name ASSIGN expression SEMI
+   46          | name LPAREN arglist RPAREN SEMI
+   47          | PRINT LPAREN arglist RPAREN SEMI
+   48          | conditionalStatement
+   49          | WHILE LPAREN expression RPAREN statement
+   50          | RETURN optionalExpression SEMI
+   51          | block
+
+   52 name: THIS
+   53     | ID
+   54     | name DOT ID
+   55     | name bracketexp
+   56     | ID bracketexp
+
+   57 arglist: %empty
+   58        | expression
+   59        | arglist COMMA expression
+
+   60 conditionalStatement: IF LPAREN expression RPAREN statement
+   61                     | IF LPAREN expression RPAREN statement ELSE statement
+
+   62 optionalExpression: %empty
+   63                   | expression
+
+   64 expression: name
+   65           | NUMBER
+   66           | NULLT
+   67           | name LPAREN arglist RPAREN
+   68           | READ LPAREN RPAREN
+   69           | newExpression
+   70           | unaryOp
+   71           | relationOp
+   72           | sumOp
+   73           | productOp
+   74           | LPAREN expression RPAREN
+
+   75 newExpression: NEW ID LPAREN arglist RPAREN
+   76              | NEW INT
+   77              | NEW INT bracketexp
+   78              | NEW INT bracketexp multibrackets
+   79              | NEW INT multibrackets
+   80              | NEW ID
+   81              | NEW ID bracketexp
+   82              | NEW ID bracketexp multibrackets
+   83              | NEW ID multibrackets
+
+   84 unaryOp: MINUS expression
+   85        | PLUS expression
+   86        | NOT expression
+
+   87 relationOp: expression EQ expression
+   88           | expression NE expression
+   89           | expression GE expression
+   90           | expression LE expression
+   91           | expression GT expression
+   92           | expression LT expression
+
+   93 sumOp: expression PLUS expression
+   94      | expression MINUS expression
+   95      | expression OR expression
+
+   96 productOp: expression TIMES expression
+   97          | expression DIV expression
+   98          | expression MOD expression
+   99          | expression AND expression
+
+  100 bracketexp: LBRACK expression RBRACK
+  101           | bracketexp LBRACK expression RBRACK
+
+  102 multibrackets: LBRACK RBRACK
+  103              | multibrackets LBRACK RBRACK
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256) 5 6 7 16
+MINUS (258) 84 94
+OR (259) 95
+TIMES (260) 96
+DIV (261) 97
+MOD (262) 98
+AND (263) 99
+EQ (264) 87
+NE (265) 88
+GE (266) 89
+LE (267) 90
+GT (268) 91
+LT (269) 92
+LPAREN (270) 28 29 46 47 49 60 61 67 68 74 75
+RPAREN (271) 28 29 46 47 49 60 61 67 68 74 75
+NOT (272) 86
+DOT (273) 54
+THIS (274) 52
+LBRACK (275) 26 27 100 101 102 103
+RBRACK (276) 26 27 100 101 102 103
+INT (277) 24 26 76 77 78 79
+NEW (278) 75 76 77 78 79 80 81 82 83
+NULLT (279) 66
+READ (280) 68
+SEMI (281) 23 40 41 44 45 46 47 50
+COMMA (282) 34 59
+IF (283) 60 61
+ELSE (284) 61
+ASSIGN (285) 45
+PRINT (286) 47
+WHILE (287) 49
+RETURN (288) 50
+LBRACE (289) 8 9 10 11 12 13 14 15 16 36 37 38 39
+RBRACE (290) 8 9 10 11 12 13 14 15 16 36 37 38 39
+VOID (291) 31
+CLASS (292) 4 5 7
+ID (293) 4 6 7 23 25 27 28 29 35 40 41 53 54 56 75 80 81 82 83
+NUMBER (294) 65
+PLUS (295) 85 93
+THEN (296)
+UPLUS (297)
+UMINUS (298)
+
+
+Nonterminals, with rules where they appear
+
+$accept (44)
+    on left: 0
+final (45)
+    on left: 1, on right: 0
+program (46)
+    on left: 2 3, on right: 1 2
+classDeclaration (47)
+    on left: 4 5 6 7, on right: 2 3
+classBody (48)
+    on left: 8 9 10 11 12 13 14 15 16, on right: 4 5 6
+classBodyMoreVar (49)
+    on left: 17 18, on right: 9 12 14 15 18
+classBodyMoreConst (50)
+    on left: 19 20, on right: 10 12 13 15 20
+classBodyMoreMethod (51)
+    on left: 21 22, on right: 11 13 14 15 22
+varDeclaration (52)
+    on left: 23, on right: 17 18
+type (53)
+    on left: 24 25 26 27, on right: 23 30 35 40 41
+constructorDeclaration (54)
+    on left: 28, on right: 19 20
+methodDeclaration (55)
+    on left: 29, on right: 21 22
+resultType (56)
+    on left: 30 31, on right: 29
+parameterList (57)
+    on left: 32 33 34, on right: 28 29 34
+parameter (58)
+    on left: 35, on right: 33 34
+block (59)
+    on left: 36 37 38 39, on right: 28 29 51
+localVarDeclaration (60)
+    on left: 40 41, on right: 37 39 41
+statementMore (61)
+    on left: 42 43, on right: 38 39 43
+statement (62)
+    on left: 44 45 46 47 48 49 50 51, on right: 42 43 49 60 61
+name (63)
+    on left: 52 53 54 55 56, on right: 45 46 54 55 64 67
+arglist (64)
+    on left: 57 58 59, on right: 46 47 59 67 75
+conditionalStatement (65)
+    on left: 60 61, on right: 48
+optionalExpression (66)
+    on left: 62 63, on right: 50
+expression (67)
+    on left: 64 65 66 67 68 69 70 71 72 73 74, on right: 45 49 58 59
+    60 61 63 74 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100
+    101
+newExpression (68)
+    on left: 75 76 77 78 79 80 81 82 83, on right: 69
+unaryOp (69)
+    on left: 84 85 86, on right: 70
+relationOp (70)
+    on left: 87 88 89 90 91 92, on right: 71
+sumOp (71)
+    on left: 93 94 95, on right: 72
+productOp (72)
+    on left: 96 97 98 99, on right: 73
+bracketexp (73)
+    on left: 100 101, on right: 55 56 77 78 81 82 101
+multibrackets (74)
+    on left: 102 103, on right: 78 79 82 83 103
+
+
+State 0
+
+    0 $accept: . final $end
+
+    error  shift, and go to state 1
+    CLASS  shift, and go to state 2
+
+    final             go to state 3
+    program           go to state 4
+    classDeclaration  go to state 5
+
+
+State 1
+
+    6 classDeclaration: error . ID classBody
+
+    ID  shift, and go to state 6
+
+
+State 2
+
+    4 classDeclaration: CLASS . ID classBody
+    5                 | CLASS . error classBody
+    7                 | CLASS . ID error
+
+    error  shift, and go to state 7
+    ID     shift, and go to state 8
+
+
+State 3
+
+    0 $accept: final . $end
+
+    $end  shift, and go to state 9
+
+
+State 4
+
+    1 final: program .
+
+    $default  reduce using rule 1 (final)
+
+
+State 5
+
+    2 program: classDeclaration . program
+    3        | classDeclaration .
+
+    error  shift, and go to state 1
+    CLASS  shift, and go to state 2
+
+    $end  reduce using rule 3 (program)
+
+    program           go to state 10
+    classDeclaration  go to state 5
+
+
+State 6
+
+    6 classDeclaration: error ID . classBody
+
+    LBRACE  shift, and go to state 11
+
+    classBody  go to state 12
+
+
+State 7
+
+    5 classDeclaration: CLASS error . classBody
+
+    LBRACE  shift, and go to state 11
+
+    classBody  go to state 13
+
+
+State 8
+
+    4 classDeclaration: CLASS ID . classBody
+    7                 | CLASS ID . error
+
+    error   shift, and go to state 14
+    LBRACE  shift, and go to state 11
+
+    classBody  go to state 15
+
+
+State 9
+
+    0 $accept: final $end .
+
+    $default  accept
+
+
+State 10
+
+    2 program: classDeclaration program .
+
+    $default  reduce using rule 2 (program)
+
+
+State 11
+
+    8 classBody: LBRACE . RBRACE
+    9          | LBRACE . classBodyMoreVar RBRACE
+   10          | LBRACE . classBodyMoreConst RBRACE
+   11          | LBRACE . classBodyMoreMethod RBRACE
+   12          | LBRACE . classBodyMoreVar classBodyMoreConst RBRACE
+   13          | LBRACE . classBodyMoreConst classBodyMoreMethod RBRACE
+   14          | LBRACE . classBodyMoreVar classBodyMoreMethod RBRACE
+   15          | LBRACE . classBodyMoreVar classBodyMoreConst classBodyMoreMethod RBRACE
+   16          | LBRACE . error RBRACE
+
+    error   shift, and go to state 16
+    INT     shift, and go to state 17
+    RBRACE  shift, and go to state 18
+    VOID    shift, and go to state 19
+    ID      shift, and go to state 20
+
+    classBodyMoreVar        go to state 21
+    classBodyMoreConst      go to state 22
+    classBodyMoreMethod     go to state 23
+    varDeclaration          go to state 24
+    type                    go to state 25
+    constructorDeclaration  go to state 26
+    methodDeclaration       go to state 27
+    resultType              go to state 28
+
+
+State 12
+
+    6 classDeclaration: error ID classBody .
+
+    $default  reduce using rule 6 (classDeclaration)
+
+
+State 13
+
+    5 classDeclaration: CLASS error classBody .
+
+    $default  reduce using rule 5 (classDeclaration)
+
+
+State 14
+
+    7 classDeclaration: CLASS ID error .
+
+    $default  reduce using rule 7 (classDeclaration)
+
+
+State 15
+
+    4 classDeclaration: CLASS ID classBody .
+
+    $default  reduce using rule 4 (classDeclaration)
+
+
+State 16
+
+   16 classBody: LBRACE error . RBRACE
+
+    RBRACE  shift, and go to state 29
+
+
+State 17
+
+   24 type: INT .
+   26     | INT . LBRACK RBRACK
+
+    LBRACK  shift, and go to state 30
+
+    $default  reduce using rule 24 (type)
+
+
+State 18
+
+    8 classBody: LBRACE RBRACE .
+
+    $default  reduce using rule 8 (classBody)
+
+
+State 19
+
+   31 resultType: VOID .
+
+    $default  reduce using rule 31 (resultType)
+
+
+State 20
+
+   25 type: ID .
+   27     | ID . LBRACK RBRACK
+   28 constructorDeclaration: ID . LPAREN parameterList RPAREN block
+
+    LPAREN  shift, and go to state 31
+    LBRACK  shift, and go to state 32
+
+    $default  reduce using rule 25 (type)
+
+
+State 21
+
+    9 classBody: LBRACE classBodyMoreVar . RBRACE
+   12          | LBRACE classBodyMoreVar . classBodyMoreConst RBRACE
+   14          | LBRACE classBodyMoreVar . classBodyMoreMethod RBRACE
+   15          | LBRACE classBodyMoreVar . classBodyMoreConst classBodyMoreMethod RBRACE
+   18 classBodyMoreVar: classBodyMoreVar . varDeclaration
+
+    INT     shift, and go to state 17
+    RBRACE  shift, and go to state 33
+    VOID    shift, and go to state 19
+    ID      shift, and go to state 20
+
+    classBodyMoreConst      go to state 34
+    classBodyMoreMethod     go to state 35
+    varDeclaration          go to state 36
+    type                    go to state 25
+    constructorDeclaration  go to state 26
+    methodDeclaration       go to state 27
+    resultType              go to state 28
+
+
+State 22
+
+   10 classBody: LBRACE classBodyMoreConst . RBRACE
+   13          | LBRACE classBodyMoreConst . classBodyMoreMethod RBRACE
+   20 classBodyMoreConst: classBodyMoreConst . constructorDeclaration
+
+    INT     shift, and go to state 17
+    RBRACE  shift, and go to state 37
+    VOID    shift, and go to state 19
+    ID      shift, and go to state 20
+
+    classBodyMoreMethod     go to state 38
+    type                    go to state 39
+    constructorDeclaration  go to state 40
+    methodDeclaration       go to state 27
+    resultType              go to state 28
+
+
+State 23
+
+   11 classBody: LBRACE classBodyMoreMethod . RBRACE
+   22 classBodyMoreMethod: classBodyMoreMethod . methodDeclaration
+
+    INT     shift, and go to state 17
+    RBRACE  shift, and go to state 41
+    VOID    shift, and go to state 19
+    ID      shift, and go to state 42
+
+    type               go to state 39
+    methodDeclaration  go to state 43
+    resultType         go to state 28
+
+
+State 24
+
+   17 classBodyMoreVar: varDeclaration .
+
+    $default  reduce using rule 17 (classBodyMoreVar)
+
+
+State 25
+
+   23 varDeclaration: type . ID SEMI
+   30 resultType: type .
+
+    ID  shift, and go to state 44
+
+    ID  [reduce using rule 30 (resultType)]
+
+
+State 26
+
+   19 classBodyMoreConst: constructorDeclaration .
+
+    $default  reduce using rule 19 (classBodyMoreConst)
+
+
+State 27
+
+   21 classBodyMoreMethod: methodDeclaration .
+
+    $default  reduce using rule 21 (classBodyMoreMethod)
+
+
+State 28
+
+   29 methodDeclaration: resultType . ID LPAREN parameterList RPAREN block
+
+    ID  shift, and go to state 45
+
+
+State 29
+
+   16 classBody: LBRACE error RBRACE .
+
+    $default  reduce using rule 16 (classBody)
+
+
+State 30
+
+   26 type: INT LBRACK . RBRACK
+
+    RBRACK  shift, and go to state 46
+
+
+State 31
+
+   28 constructorDeclaration: ID LPAREN . parameterList RPAREN block
+
+    INT  shift, and go to state 17
+    ID   shift, and go to state 42
+
+    $default  reduce using rule 32 (parameterList)
+
+    type           go to state 47
+    parameterList  go to state 48
+    parameter      go to state 49
+
+
+State 32
+
+   27 type: ID LBRACK . RBRACK
+
+    RBRACK  shift, and go to state 50
+
+
+State 33
+
+    9 classBody: LBRACE classBodyMoreVar RBRACE .
+
+    $default  reduce using rule 9 (classBody)
+
+
+State 34
+
+   12 classBody: LBRACE classBodyMoreVar classBodyMoreConst . RBRACE
+   15          | LBRACE classBodyMoreVar classBodyMoreConst . classBodyMoreMethod RBRACE
+   20 classBodyMoreConst: classBodyMoreConst . constructorDeclaration
+
+    INT     shift, and go to state 17
+    RBRACE  shift, and go to state 51
+    VOID    shift, and go to state 19
+    ID      shift, and go to state 20
+
+    classBodyMoreMethod     go to state 52
+    type                    go to state 39
+    constructorDeclaration  go to state 40
+    methodDeclaration       go to state 27
+    resultType              go to state 28
+
+
+State 35
+
+   14 classBody: LBRACE classBodyMoreVar classBodyMoreMethod . RBRACE
+   22 classBodyMoreMethod: classBodyMoreMethod . methodDeclaration
+
+    INT     shift, and go to state 17
+    RBRACE  shift, and go to state 53
+    VOID    shift, and go to state 19
+    ID      shift, and go to state 42
+
+    type               go to state 39
+    methodDeclaration  go to state 43
+    resultType         go to state 28
+
+
+State 36
+
+   18 classBodyMoreVar: classBodyMoreVar varDeclaration .
+
+    $default  reduce using rule 18 (classBodyMoreVar)
+
+
+State 37
+
+   10 classBody: LBRACE classBodyMoreConst RBRACE .
+
+    $default  reduce using rule 10 (classBody)
+
+
+State 38
+
+   13 classBody: LBRACE classBodyMoreConst classBodyMoreMethod . RBRACE
+   22 classBodyMoreMethod: classBodyMoreMethod . methodDeclaration
+
+    INT     shift, and go to state 17
+    RBRACE  shift, and go to state 54
+    VOID    shift, and go to state 19
+    ID      shift, and go to state 42
+
+    type               go to state 39
+    methodDeclaration  go to state 43
+    resultType         go to state 28
+
+
+State 39
+
+   30 resultType: type .
+
+    $default  reduce using rule 30 (resultType)
+
+
+State 40
+
+   20 classBodyMoreConst: classBodyMoreConst constructorDeclaration .
+
+    $default  reduce using rule 20 (classBodyMoreConst)
+
+
+State 41
+
+   11 classBody: LBRACE classBodyMoreMethod RBRACE .
+
+    $default  reduce using rule 11 (classBody)
+
+
+State 42
+
+   25 type: ID .
+   27     | ID . LBRACK RBRACK
+
+    LBRACK  shift, and go to state 32
+
+    $default  reduce using rule 25 (type)
+
+
+State 43
+
+   22 classBodyMoreMethod: classBodyMoreMethod methodDeclaration .
+
+    $default  reduce using rule 22 (classBodyMoreMethod)
+
+
+State 44
+
+   23 varDeclaration: type ID . SEMI
+
+    SEMI  shift, and go to state 55
+
+
+State 45
+
+   29 methodDeclaration: resultType ID . LPAREN parameterList RPAREN block
+
+    LPAREN  shift, and go to state 56
+
+
+State 46
+
+   26 type: INT LBRACK RBRACK .
+
+    $default  reduce using rule 26 (type)
+
+
+State 47
+
+   35 parameter: type . ID
+
+    ID  shift, and go to state 57
+
+
+State 48
+
+   28 constructorDeclaration: ID LPAREN parameterList . RPAREN block
+   34 parameterList: parameterList . COMMA parameter
+
+    RPAREN  shift, and go to state 58
+    COMMA   shift, and go to state 59
+
+
+State 49
+
+   33 parameterList: parameter .
+
+    $default  reduce using rule 33 (parameterList)
+
+
+State 50
+
+   27 type: ID LBRACK RBRACK .
+
+    $default  reduce using rule 27 (type)
+
+
+State 51
+
+   12 classBody: LBRACE classBodyMoreVar classBodyMoreConst RBRACE .
+
+    $default  reduce using rule 12 (classBody)
+
+
+State 52
+
+   15 classBody: LBRACE classBodyMoreVar classBodyMoreConst classBodyMoreMethod . RBRACE
+   22 classBodyMoreMethod: classBodyMoreMethod . methodDeclaration
+
+    INT     shift, and go to state 17
+    RBRACE  shift, and go to state 60
+    VOID    shift, and go to state 19
+    ID      shift, and go to state 42
+
+    type               go to state 39
+    methodDeclaration  go to state 43
+    resultType         go to state 28
+
+
+State 53
+
+   14 classBody: LBRACE classBodyMoreVar classBodyMoreMethod RBRACE .
+
+    $default  reduce using rule 14 (classBody)
+
+
+State 54
+
+   13 classBody: LBRACE classBodyMoreConst classBodyMoreMethod RBRACE .
+
+    $default  reduce using rule 13 (classBody)
+
+
+State 55
+
+   23 varDeclaration: type ID SEMI .
+
+    $default  reduce using rule 23 (varDeclaration)
+
+
+State 56
+
+   29 methodDeclaration: resultType ID LPAREN . parameterList RPAREN block
+
+    INT  shift, and go to state 17
+    ID   shift, and go to state 42
+
+    $default  reduce using rule 32 (parameterList)
+
+    type           go to state 47
+    parameterList  go to state 61
+    parameter      go to state 49
+
+
+State 57
+
+   35 parameter: type ID .
+
+    $default  reduce using rule 35 (parameter)
+
+
+State 58
+
+   28 constructorDeclaration: ID LPAREN parameterList RPAREN . block
+
+    LBRACE  shift, and go to state 62
+
+    block  go to state 63
+
+
+State 59
+
+   34 parameterList: parameterList COMMA . parameter
+
+    INT  shift, and go to state 17
+    ID   shift, and go to state 42
+
+    type       go to state 47
+    parameter  go to state 64
+
+
+State 60
+
+   15 classBody: LBRACE classBodyMoreVar classBodyMoreConst classBodyMoreMethod RBRACE .
+
+    $default  reduce using rule 15 (classBody)
+
+
+State 61
+
+   29 methodDeclaration: resultType ID LPAREN parameterList . RPAREN block
+   34 parameterList: parameterList . COMMA parameter
+
+    RPAREN  shift, and go to state 65
+    COMMA   shift, and go to state 59
+
+
+State 62
+
+   36 block: LBRACE . RBRACE
+   37      | LBRACE . localVarDeclaration RBRACE
+   38      | LBRACE . statementMore RBRACE
+   39      | LBRACE . localVarDeclaration statementMore RBRACE
+
+    THIS    shift, and go to state 66
+    INT     shift, and go to state 17
+    SEMI    shift, and go to state 67
+    IF      shift, and go to state 68
+    PRINT   shift, and go to state 69
+    WHILE   shift, and go to state 70
+    RETURN  shift, and go to state 71
+    LBRACE  shift, and go to state 62
+    RBRACE  shift, and go to state 72
+    ID      shift, and go to state 73
+
+    type                  go to state 74
+    block                 go to state 75
+    localVarDeclaration   go to state 76
+    statementMore         go to state 77
+    statement             go to state 78
+    name                  go to state 79
+    conditionalStatement  go to state 80
+
+
+State 63
+
+   28 constructorDeclaration: ID LPAREN parameterList RPAREN block .
+
+    $default  reduce using rule 28 (constructorDeclaration)
+
+
+State 64
+
+   34 parameterList: parameterList COMMA parameter .
+
+    $default  reduce using rule 34 (parameterList)
+
+
+State 65
+
+   29 methodDeclaration: resultType ID LPAREN parameterList RPAREN . block
+
+    LBRACE  shift, and go to state 62
+
+    block  go to state 81
+
+
+State 66
+
+   52 name: THIS .
+
+    $default  reduce using rule 52 (name)
+
+
+State 67
+
+   44 statement: SEMI .
+
+    $default  reduce using rule 44 (statement)
+
+
+State 68
+
+   60 conditionalStatement: IF . LPAREN expression RPAREN statement
+   61                     | IF . LPAREN expression RPAREN statement ELSE statement
+
+    LPAREN  shift, and go to state 82
+
+
+State 69
+
+   47 statement: PRINT . LPAREN arglist RPAREN SEMI
+
+    LPAREN  shift, and go to state 83
+
+
+State 70
+
+   49 statement: WHILE . LPAREN expression RPAREN statement
+
+    LPAREN  shift, and go to state 84
+
+
+State 71
+
+   50 statement: RETURN . optionalExpression SEMI
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    $default  reduce using rule 62 (optionalExpression)
+
+    name                go to state 94
+    optionalExpression  go to state 95
+    expression          go to state 96
+    newExpression       go to state 97
+    unaryOp             go to state 98
+    relationOp          go to state 99
+    sumOp               go to state 100
+    productOp           go to state 101
+
+
+State 72
+
+   36 block: LBRACE RBRACE .
+
+    $default  reduce using rule 36 (block)
+
+
+State 73
+
+   25 type: ID .
+   27     | ID . LBRACK RBRACK
+   53 name: ID .
+   56     | ID . bracketexp
+
+    LBRACK  shift, and go to state 102
+
+    LBRACK    [reduce using rule 53 (name)]
+    ID        reduce using rule 25 (type)
+    $default  reduce using rule 53 (name)
+
+    bracketexp  go to state 103
+
+
+State 74
+
+   40 localVarDeclaration: type . ID SEMI
+
+    ID  shift, and go to state 104
+
+
+State 75
+
+   51 statement: block .
+
+    $default  reduce using rule 51 (statement)
+
+
+State 76
+
+   37 block: LBRACE localVarDeclaration . RBRACE
+   39      | LBRACE localVarDeclaration . statementMore RBRACE
+   41 localVarDeclaration: localVarDeclaration . type ID SEMI
+
+    THIS    shift, and go to state 66
+    INT     shift, and go to state 17
+    SEMI    shift, and go to state 67
+    IF      shift, and go to state 68
+    PRINT   shift, and go to state 69
+    WHILE   shift, and go to state 70
+    RETURN  shift, and go to state 71
+    LBRACE  shift, and go to state 62
+    RBRACE  shift, and go to state 105
+    ID      shift, and go to state 73
+
+    type                  go to state 106
+    block                 go to state 75
+    statementMore         go to state 107
+    statement             go to state 78
+    name                  go to state 79
+    conditionalStatement  go to state 80
+
+
+State 77
+
+   38 block: LBRACE statementMore . RBRACE
+   43 statementMore: statementMore . statement
+
+    THIS    shift, and go to state 66
+    SEMI    shift, and go to state 67
+    IF      shift, and go to state 68
+    PRINT   shift, and go to state 69
+    WHILE   shift, and go to state 70
+    RETURN  shift, and go to state 71
+    LBRACE  shift, and go to state 62
+    RBRACE  shift, and go to state 108
+    ID      shift, and go to state 91
+
+    block                 go to state 75
+    statement             go to state 109
+    name                  go to state 79
+    conditionalStatement  go to state 80
+
+
+State 78
+
+   42 statementMore: statement .
+
+    $default  reduce using rule 42 (statementMore)
+
+
+State 79
+
+   45 statement: name . ASSIGN expression SEMI
+   46          | name . LPAREN arglist RPAREN SEMI
+   54 name: name . DOT ID
+   55     | name . bracketexp
+
+    LPAREN  shift, and go to state 110
+    DOT     shift, and go to state 111
+    LBRACK  shift, and go to state 112
+    ASSIGN  shift, and go to state 113
+
+    bracketexp  go to state 114
+
+
+State 80
+
+   48 statement: conditionalStatement .
+
+    $default  reduce using rule 48 (statement)
+
+
+State 81
+
+   29 methodDeclaration: resultType ID LPAREN parameterList RPAREN block .
+
+    $default  reduce using rule 29 (methodDeclaration)
+
+
+State 82
+
+   60 conditionalStatement: IF LPAREN . expression RPAREN statement
+   61                     | IF LPAREN . expression RPAREN statement ELSE statement
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 115
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 83
+
+   47 statement: PRINT LPAREN . arglist RPAREN SEMI
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    $default  reduce using rule 57 (arglist)
+
+    name           go to state 94
+    arglist        go to state 116
+    expression     go to state 117
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 84
+
+   49 statement: WHILE LPAREN . expression RPAREN statement
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 118
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 85
+
+   84 unaryOp: MINUS . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 119
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 86
+
+   74 expression: LPAREN . expression RPAREN
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 120
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 87
+
+   86 unaryOp: NOT . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 121
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 88
+
+   75 newExpression: NEW . ID LPAREN arglist RPAREN
+   76              | NEW . INT
+   77              | NEW . INT bracketexp
+   78              | NEW . INT bracketexp multibrackets
+   79              | NEW . INT multibrackets
+   80              | NEW . ID
+   81              | NEW . ID bracketexp
+   82              | NEW . ID bracketexp multibrackets
+   83              | NEW . ID multibrackets
+
+    INT  shift, and go to state 122
+    ID   shift, and go to state 123
+
+
+State 89
+
+   66 expression: NULLT .
+
+    $default  reduce using rule 66 (expression)
+
+
+State 90
+
+   68 expression: READ . LPAREN RPAREN
+
+    LPAREN  shift, and go to state 124
+
+
+State 91
+
+   53 name: ID .
+   56     | ID . bracketexp
+
+    LBRACK  shift, and go to state 112
+
+    LBRACK    [reduce using rule 53 (name)]
+    $default  reduce using rule 53 (name)
+
+    bracketexp  go to state 103
+
+
+State 92
+
+   65 expression: NUMBER .
+
+    $default  reduce using rule 65 (expression)
+
+
+State 93
+
+   85 unaryOp: PLUS . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 125
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 94
+
+   54 name: name . DOT ID
+   55     | name . bracketexp
+   64 expression: name .
+   67           | name . LPAREN arglist RPAREN
+
+    LPAREN  shift, and go to state 126
+    DOT     shift, and go to state 111
+    LBRACK  shift, and go to state 112
+
+    $default  reduce using rule 64 (expression)
+
+    bracketexp  go to state 114
+
+
+State 95
+
+   50 statement: RETURN optionalExpression . SEMI
+
+    SEMI  shift, and go to state 127
+
+
+State 96
+
+   63 optionalExpression: expression .
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    MINUS  shift, and go to state 128
+    OR     shift, and go to state 129
+    TIMES  shift, and go to state 130
+    DIV    shift, and go to state 131
+    MOD    shift, and go to state 132
+    AND    shift, and go to state 133
+    EQ     shift, and go to state 134
+    NE     shift, and go to state 135
+    GE     shift, and go to state 136
+    LE     shift, and go to state 137
+    GT     shift, and go to state 138
+    LT     shift, and go to state 139
+    PLUS   shift, and go to state 140
+
+    $default  reduce using rule 63 (optionalExpression)
+
+
+State 97
+
+   69 expression: newExpression .
+
+    $default  reduce using rule 69 (expression)
+
+
+State 98
+
+   70 expression: unaryOp .
+
+    $default  reduce using rule 70 (expression)
+
+
+State 99
+
+   71 expression: relationOp .
+
+    $default  reduce using rule 71 (expression)
+
+
+State 100
+
+   72 expression: sumOp .
+
+    $default  reduce using rule 72 (expression)
+
+
+State 101
+
+   73 expression: productOp .
+
+    $default  reduce using rule 73 (expression)
+
+
+State 102
+
+   27 type: ID LBRACK . RBRACK
+  100 bracketexp: LBRACK . expression RBRACK
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    RBRACK  shift, and go to state 50
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 141
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 103
+
+   56 name: ID bracketexp .
+  101 bracketexp: bracketexp . LBRACK expression RBRACK
+
+    LBRACK  shift, and go to state 142
+
+    $default  reduce using rule 56 (name)
+
+
+State 104
+
+   40 localVarDeclaration: type ID . SEMI
+
+    SEMI  shift, and go to state 143
+
+
+State 105
+
+   37 block: LBRACE localVarDeclaration RBRACE .
+
+    $default  reduce using rule 37 (block)
+
+
+State 106
+
+   41 localVarDeclaration: localVarDeclaration type . ID SEMI
+
+    ID  shift, and go to state 144
+
+
+State 107
+
+   39 block: LBRACE localVarDeclaration statementMore . RBRACE
+   43 statementMore: statementMore . statement
+
+    THIS    shift, and go to state 66
+    SEMI    shift, and go to state 67
+    IF      shift, and go to state 68
+    PRINT   shift, and go to state 69
+    WHILE   shift, and go to state 70
+    RETURN  shift, and go to state 71
+    LBRACE  shift, and go to state 62
+    RBRACE  shift, and go to state 145
+    ID      shift, and go to state 91
+
+    block                 go to state 75
+    statement             go to state 109
+    name                  go to state 79
+    conditionalStatement  go to state 80
+
+
+State 108
+
+   38 block: LBRACE statementMore RBRACE .
+
+    $default  reduce using rule 38 (block)
+
+
+State 109
+
+   43 statementMore: statementMore statement .
+
+    $default  reduce using rule 43 (statementMore)
+
+
+State 110
+
+   46 statement: name LPAREN . arglist RPAREN SEMI
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    $default  reduce using rule 57 (arglist)
+
+    name           go to state 94
+    arglist        go to state 146
+    expression     go to state 117
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 111
+
+   54 name: name DOT . ID
+
+    ID  shift, and go to state 147
+
+
+State 112
+
+  100 bracketexp: LBRACK . expression RBRACK
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 141
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 113
+
+   45 statement: name ASSIGN . expression SEMI
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 148
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 114
+
+   55 name: name bracketexp .
+  101 bracketexp: bracketexp . LBRACK expression RBRACK
+
+    LBRACK  shift, and go to state 142
+
+    $default  reduce using rule 55 (name)
+
+
+State 115
+
+   60 conditionalStatement: IF LPAREN expression . RPAREN statement
+   61                     | IF LPAREN expression . RPAREN statement ELSE statement
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    MINUS   shift, and go to state 128
+    OR      shift, and go to state 129
+    TIMES   shift, and go to state 130
+    DIV     shift, and go to state 131
+    MOD     shift, and go to state 132
+    AND     shift, and go to state 133
+    EQ      shift, and go to state 134
+    NE      shift, and go to state 135
+    GE      shift, and go to state 136
+    LE      shift, and go to state 137
+    GT      shift, and go to state 138
+    LT      shift, and go to state 139
+    RPAREN  shift, and go to state 149
+    PLUS    shift, and go to state 140
+
+
+State 116
+
+   47 statement: PRINT LPAREN arglist . RPAREN SEMI
+   59 arglist: arglist . COMMA expression
+
+    RPAREN  shift, and go to state 150
+    COMMA   shift, and go to state 151
+
+
+State 117
+
+   58 arglist: expression .
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    MINUS  shift, and go to state 128
+    OR     shift, and go to state 129
+    TIMES  shift, and go to state 130
+    DIV    shift, and go to state 131
+    MOD    shift, and go to state 132
+    AND    shift, and go to state 133
+    EQ     shift, and go to state 134
+    NE     shift, and go to state 135
+    GE     shift, and go to state 136
+    LE     shift, and go to state 137
+    GT     shift, and go to state 138
+    LT     shift, and go to state 139
+    PLUS   shift, and go to state 140
+
+    $default  reduce using rule 58 (arglist)
+
+
+State 118
+
+   49 statement: WHILE LPAREN expression . RPAREN statement
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    MINUS   shift, and go to state 128
+    OR      shift, and go to state 129
+    TIMES   shift, and go to state 130
+    DIV     shift, and go to state 131
+    MOD     shift, and go to state 132
+    AND     shift, and go to state 133
+    EQ      shift, and go to state 134
+    NE      shift, and go to state 135
+    GE      shift, and go to state 136
+    LE      shift, and go to state 137
+    GT      shift, and go to state 138
+    LT      shift, and go to state 139
+    RPAREN  shift, and go to state 152
+    PLUS    shift, and go to state 140
+
+
+State 119
+
+   84 unaryOp: MINUS expression .
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    $default  reduce using rule 84 (unaryOp)
+
+
+State 120
+
+   74 expression: LPAREN expression . RPAREN
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    MINUS   shift, and go to state 128
+    OR      shift, and go to state 129
+    TIMES   shift, and go to state 130
+    DIV     shift, and go to state 131
+    MOD     shift, and go to state 132
+    AND     shift, and go to state 133
+    EQ      shift, and go to state 134
+    NE      shift, and go to state 135
+    GE      shift, and go to state 136
+    LE      shift, and go to state 137
+    GT      shift, and go to state 138
+    LT      shift, and go to state 139
+    RPAREN  shift, and go to state 153
+    PLUS    shift, and go to state 140
+
+
+State 121
+
+   86 unaryOp: NOT expression .
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    $default  reduce using rule 86 (unaryOp)
+
+
+State 122
+
+   76 newExpression: NEW INT .
+   77              | NEW INT . bracketexp
+   78              | NEW INT . bracketexp multibrackets
+   79              | NEW INT . multibrackets
+
+    LBRACK  shift, and go to state 154
+
+    $default  reduce using rule 76 (newExpression)
+
+    bracketexp     go to state 155
+    multibrackets  go to state 156
+
+
+State 123
+
+   75 newExpression: NEW ID . LPAREN arglist RPAREN
+   80              | NEW ID .
+   81              | NEW ID . bracketexp
+   82              | NEW ID . bracketexp multibrackets
+   83              | NEW ID . multibrackets
+
+    LPAREN  shift, and go to state 157
+    LBRACK  shift, and go to state 154
+
+    $default  reduce using rule 80 (newExpression)
+
+    bracketexp     go to state 158
+    multibrackets  go to state 159
+
+
+State 124
+
+   68 expression: READ LPAREN . RPAREN
+
+    RPAREN  shift, and go to state 160
+
+
+State 125
+
+   85 unaryOp: PLUS expression .
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    $default  reduce using rule 85 (unaryOp)
+
+
+State 126
+
+   67 expression: name LPAREN . arglist RPAREN
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    $default  reduce using rule 57 (arglist)
+
+    name           go to state 94
+    arglist        go to state 161
+    expression     go to state 117
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 127
+
+   50 statement: RETURN optionalExpression SEMI .
+
+    $default  reduce using rule 50 (statement)
+
+
+State 128
+
+   94 sumOp: expression MINUS . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 162
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 129
+
+   95 sumOp: expression OR . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 163
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 130
+
+   96 productOp: expression TIMES . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 164
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 131
+
+   97 productOp: expression DIV . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 165
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 132
+
+   98 productOp: expression MOD . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 166
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 133
+
+   99 productOp: expression AND . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 167
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 134
+
+   87 relationOp: expression EQ . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 168
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 135
+
+   88 relationOp: expression NE . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 169
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 136
+
+   89 relationOp: expression GE . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 170
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 137
+
+   90 relationOp: expression LE . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 171
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 138
+
+   91 relationOp: expression GT . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 172
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 139
+
+   92 relationOp: expression LT . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 173
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 140
+
+   93 sumOp: expression PLUS . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 174
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 141
+
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+  100 bracketexp: LBRACK expression . RBRACK
+
+    MINUS   shift, and go to state 128
+    OR      shift, and go to state 129
+    TIMES   shift, and go to state 130
+    DIV     shift, and go to state 131
+    MOD     shift, and go to state 132
+    AND     shift, and go to state 133
+    EQ      shift, and go to state 134
+    NE      shift, and go to state 135
+    GE      shift, and go to state 136
+    LE      shift, and go to state 137
+    GT      shift, and go to state 138
+    LT      shift, and go to state 139
+    RBRACK  shift, and go to state 175
+    PLUS    shift, and go to state 140
+
+
+State 142
+
+  101 bracketexp: bracketexp LBRACK . expression RBRACK
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 176
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 143
+
+   40 localVarDeclaration: type ID SEMI .
+
+    $default  reduce using rule 40 (localVarDeclaration)
+
+
+State 144
+
+   41 localVarDeclaration: localVarDeclaration type ID . SEMI
+
+    SEMI  shift, and go to state 177
+
+
+State 145
+
+   39 block: LBRACE localVarDeclaration statementMore RBRACE .
+
+    $default  reduce using rule 39 (block)
+
+
+State 146
+
+   46 statement: name LPAREN arglist . RPAREN SEMI
+   59 arglist: arglist . COMMA expression
+
+    RPAREN  shift, and go to state 178
+    COMMA   shift, and go to state 151
+
+
+State 147
+
+   54 name: name DOT ID .
+
+    $default  reduce using rule 54 (name)
+
+
+State 148
+
+   45 statement: name ASSIGN expression . SEMI
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    MINUS  shift, and go to state 128
+    OR     shift, and go to state 129
+    TIMES  shift, and go to state 130
+    DIV    shift, and go to state 131
+    MOD    shift, and go to state 132
+    AND    shift, and go to state 133
+    EQ     shift, and go to state 134
+    NE     shift, and go to state 135
+    GE     shift, and go to state 136
+    LE     shift, and go to state 137
+    GT     shift, and go to state 138
+    LT     shift, and go to state 139
+    SEMI   shift, and go to state 179
+    PLUS   shift, and go to state 140
+
+
+State 149
+
+   60 conditionalStatement: IF LPAREN expression RPAREN . statement
+   61                     | IF LPAREN expression RPAREN . statement ELSE statement
+
+    THIS    shift, and go to state 66
+    SEMI    shift, and go to state 67
+    IF      shift, and go to state 68
+    PRINT   shift, and go to state 69
+    WHILE   shift, and go to state 70
+    RETURN  shift, and go to state 71
+    LBRACE  shift, and go to state 62
+    ID      shift, and go to state 91
+
+    block                 go to state 75
+    statement             go to state 180
+    name                  go to state 79
+    conditionalStatement  go to state 80
+
+
+State 150
+
+   47 statement: PRINT LPAREN arglist RPAREN . SEMI
+
+    SEMI  shift, and go to state 181
+
+
+State 151
+
+   59 arglist: arglist COMMA . expression
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 182
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 152
+
+   49 statement: WHILE LPAREN expression RPAREN . statement
+
+    THIS    shift, and go to state 66
+    SEMI    shift, and go to state 67
+    IF      shift, and go to state 68
+    PRINT   shift, and go to state 69
+    WHILE   shift, and go to state 70
+    RETURN  shift, and go to state 71
+    LBRACE  shift, and go to state 62
+    ID      shift, and go to state 91
+
+    block                 go to state 75
+    statement             go to state 183
+    name                  go to state 79
+    conditionalStatement  go to state 80
+
+
+State 153
+
+   74 expression: LPAREN expression RPAREN .
+
+    $default  reduce using rule 74 (expression)
+
+
+State 154
+
+  100 bracketexp: LBRACK . expression RBRACK
+  102 multibrackets: LBRACK . RBRACK
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    RBRACK  shift, and go to state 184
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 141
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 155
+
+   77 newExpression: NEW INT bracketexp .
+   78              | NEW INT bracketexp . multibrackets
+  101 bracketexp: bracketexp . LBRACK expression RBRACK
+
+    LBRACK  shift, and go to state 185
+
+    $default  reduce using rule 77 (newExpression)
+
+    multibrackets  go to state 186
+
+
+State 156
+
+   79 newExpression: NEW INT multibrackets .
+  103 multibrackets: multibrackets . LBRACK RBRACK
+
+    LBRACK  shift, and go to state 187
+
+    $default  reduce using rule 79 (newExpression)
+
+
+State 157
+
+   75 newExpression: NEW ID LPAREN . arglist RPAREN
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    $default  reduce using rule 57 (arglist)
+
+    name           go to state 94
+    arglist        go to state 188
+    expression     go to state 117
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 158
+
+   81 newExpression: NEW ID bracketexp .
+   82              | NEW ID bracketexp . multibrackets
+  101 bracketexp: bracketexp . LBRACK expression RBRACK
+
+    LBRACK  shift, and go to state 185
+
+    $default  reduce using rule 81 (newExpression)
+
+    multibrackets  go to state 189
+
+
+State 159
+
+   83 newExpression: NEW ID multibrackets .
+  103 multibrackets: multibrackets . LBRACK RBRACK
+
+    LBRACK  shift, and go to state 187
+
+    $default  reduce using rule 83 (newExpression)
+
+
+State 160
+
+   68 expression: READ LPAREN RPAREN .
+
+    $default  reduce using rule 68 (expression)
+
+
+State 161
+
+   59 arglist: arglist . COMMA expression
+   67 expression: name LPAREN arglist . RPAREN
+
+    RPAREN  shift, and go to state 190
+    COMMA   shift, and go to state 151
+
+
+State 162
+
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   94      | expression MINUS expression .
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    TIMES  shift, and go to state 130
+    DIV    shift, and go to state 131
+    MOD    shift, and go to state 132
+    AND    shift, and go to state 133
+
+    $default  reduce using rule 94 (sumOp)
+
+
+State 163
+
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   95      | expression OR expression .
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    TIMES  shift, and go to state 130
+    DIV    shift, and go to state 131
+    MOD    shift, and go to state 132
+    AND    shift, and go to state 133
+
+    $default  reduce using rule 95 (sumOp)
+
+
+State 164
+
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   96          | expression TIMES expression .
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    $default  reduce using rule 96 (productOp)
+
+
+State 165
+
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   97          | expression DIV expression .
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    $default  reduce using rule 97 (productOp)
+
+
+State 166
+
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   98          | expression MOD expression .
+   99          | expression . AND expression
+
+    $default  reduce using rule 98 (productOp)
+
+
+State 167
+
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+   99          | expression AND expression .
+
+    $default  reduce using rule 99 (productOp)
+
+
+State 168
+
+   87 relationOp: expression . EQ expression
+   87           | expression EQ expression .
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    MINUS  shift, and go to state 128
+    OR     shift, and go to state 129
+    TIMES  shift, and go to state 130
+    DIV    shift, and go to state 131
+    MOD    shift, and go to state 132
+    AND    shift, and go to state 133
+    PLUS   shift, and go to state 140
+
+    $default  reduce using rule 87 (relationOp)
+
+
+State 169
+
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   88           | expression NE expression .
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    MINUS  shift, and go to state 128
+    OR     shift, and go to state 129
+    TIMES  shift, and go to state 130
+    DIV    shift, and go to state 131
+    MOD    shift, and go to state 132
+    AND    shift, and go to state 133
+    PLUS   shift, and go to state 140
+
+    $default  reduce using rule 88 (relationOp)
+
+
+State 170
+
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   89           | expression GE expression .
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    MINUS  shift, and go to state 128
+    OR     shift, and go to state 129
+    TIMES  shift, and go to state 130
+    DIV    shift, and go to state 131
+    MOD    shift, and go to state 132
+    AND    shift, and go to state 133
+    PLUS   shift, and go to state 140
+
+    $default  reduce using rule 89 (relationOp)
+
+
+State 171
+
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   90           | expression LE expression .
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    MINUS  shift, and go to state 128
+    OR     shift, and go to state 129
+    TIMES  shift, and go to state 130
+    DIV    shift, and go to state 131
+    MOD    shift, and go to state 132
+    AND    shift, and go to state 133
+    PLUS   shift, and go to state 140
+
+    $default  reduce using rule 90 (relationOp)
+
+
+State 172
+
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   91           | expression GT expression .
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    MINUS  shift, and go to state 128
+    OR     shift, and go to state 129
+    TIMES  shift, and go to state 130
+    DIV    shift, and go to state 131
+    MOD    shift, and go to state 132
+    AND    shift, and go to state 133
+    PLUS   shift, and go to state 140
+
+    $default  reduce using rule 91 (relationOp)
+
+
+State 173
+
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   92           | expression LT expression .
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    MINUS  shift, and go to state 128
+    OR     shift, and go to state 129
+    TIMES  shift, and go to state 130
+    DIV    shift, and go to state 131
+    MOD    shift, and go to state 132
+    AND    shift, and go to state 133
+    PLUS   shift, and go to state 140
+
+    $default  reduce using rule 92 (relationOp)
+
+
+State 174
+
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   93      | expression PLUS expression .
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    TIMES  shift, and go to state 130
+    DIV    shift, and go to state 131
+    MOD    shift, and go to state 132
+    AND    shift, and go to state 133
+
+    $default  reduce using rule 93 (sumOp)
+
+
+State 175
+
+  100 bracketexp: LBRACK expression RBRACK .
+
+    $default  reduce using rule 100 (bracketexp)
+
+
+State 176
+
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+  101 bracketexp: bracketexp LBRACK expression . RBRACK
+
+    MINUS   shift, and go to state 128
+    OR      shift, and go to state 129
+    TIMES   shift, and go to state 130
+    DIV     shift, and go to state 131
+    MOD     shift, and go to state 132
+    AND     shift, and go to state 133
+    EQ      shift, and go to state 134
+    NE      shift, and go to state 135
+    GE      shift, and go to state 136
+    LE      shift, and go to state 137
+    GT      shift, and go to state 138
+    LT      shift, and go to state 139
+    RBRACK  shift, and go to state 191
+    PLUS    shift, and go to state 140
+
+
+State 177
+
+   41 localVarDeclaration: localVarDeclaration type ID SEMI .
+
+    $default  reduce using rule 41 (localVarDeclaration)
+
+
+State 178
+
+   46 statement: name LPAREN arglist RPAREN . SEMI
+
+    SEMI  shift, and go to state 192
+
+
+State 179
+
+   45 statement: name ASSIGN expression SEMI .
+
+    $default  reduce using rule 45 (statement)
+
+
+State 180
+
+   60 conditionalStatement: IF LPAREN expression RPAREN statement .
+   61                     | IF LPAREN expression RPAREN statement . ELSE statement
+
+    ELSE  shift, and go to state 193
+
+    $default  reduce using rule 60 (conditionalStatement)
+
+
+State 181
+
+   47 statement: PRINT LPAREN arglist RPAREN SEMI .
+
+    $default  reduce using rule 47 (statement)
+
+
+State 182
+
+   59 arglist: arglist COMMA expression .
+   87 relationOp: expression . EQ expression
+   88           | expression . NE expression
+   89           | expression . GE expression
+   90           | expression . LE expression
+   91           | expression . GT expression
+   92           | expression . LT expression
+   93 sumOp: expression . PLUS expression
+   94      | expression . MINUS expression
+   95      | expression . OR expression
+   96 productOp: expression . TIMES expression
+   97          | expression . DIV expression
+   98          | expression . MOD expression
+   99          | expression . AND expression
+
+    MINUS  shift, and go to state 128
+    OR     shift, and go to state 129
+    TIMES  shift, and go to state 130
+    DIV    shift, and go to state 131
+    MOD    shift, and go to state 132
+    AND    shift, and go to state 133
+    EQ     shift, and go to state 134
+    NE     shift, and go to state 135
+    GE     shift, and go to state 136
+    LE     shift, and go to state 137
+    GT     shift, and go to state 138
+    LT     shift, and go to state 139
+    PLUS   shift, and go to state 140
+
+    $default  reduce using rule 59 (arglist)
+
+
+State 183
+
+   49 statement: WHILE LPAREN expression RPAREN statement .
+
+    $default  reduce using rule 49 (statement)
+
+
+State 184
+
+  102 multibrackets: LBRACK RBRACK .
+
+    $default  reduce using rule 102 (multibrackets)
+
+
+State 185
+
+  101 bracketexp: bracketexp LBRACK . expression RBRACK
+  102 multibrackets: LBRACK . RBRACK
+
+    MINUS   shift, and go to state 85
+    LPAREN  shift, and go to state 86
+    NOT     shift, and go to state 87
+    THIS    shift, and go to state 66
+    RBRACK  shift, and go to state 184
+    NEW     shift, and go to state 88
+    NULLT   shift, and go to state 89
+    READ    shift, and go to state 90
+    ID      shift, and go to state 91
+    NUMBER  shift, and go to state 92
+    PLUS    shift, and go to state 93
+
+    name           go to state 94
+    expression     go to state 176
+    newExpression  go to state 97
+    unaryOp        go to state 98
+    relationOp     go to state 99
+    sumOp          go to state 100
+    productOp      go to state 101
+
+
+State 186
+
+   78 newExpression: NEW INT bracketexp multibrackets .
+  103 multibrackets: multibrackets . LBRACK RBRACK
+
+    LBRACK  shift, and go to state 187
+
+    $default  reduce using rule 78 (newExpression)
+
+
+State 187
+
+  103 multibrackets: multibrackets LBRACK . RBRACK
+
+    RBRACK  shift, and go to state 194
+
+
+State 188
+
+   59 arglist: arglist . COMMA expression
+   75 newExpression: NEW ID LPAREN arglist . RPAREN
+
+    RPAREN  shift, and go to state 195
+    COMMA   shift, and go to state 151
+
+
+State 189
+
+   82 newExpression: NEW ID bracketexp multibrackets .
+  103 multibrackets: multibrackets . LBRACK RBRACK
+
+    LBRACK  shift, and go to state 187
+
+    $default  reduce using rule 82 (newExpression)
+
+
+State 190
+
+   67 expression: name LPAREN arglist RPAREN .
+
+    $default  reduce using rule 67 (expression)
+
+
+State 191
+
+  101 bracketexp: bracketexp LBRACK expression RBRACK .
+
+    $default  reduce using rule 101 (bracketexp)
+
+
+State 192
+
+   46 statement: name LPAREN arglist RPAREN SEMI .
+
+    $default  reduce using rule 46 (statement)
+
+
+State 193
+
+   61 conditionalStatement: IF LPAREN expression RPAREN statement ELSE . statement
+
+    THIS    shift, and go to state 66
+    SEMI    shift, and go to state 67
+    IF      shift, and go to state 68
+    PRINT   shift, and go to state 69
+    WHILE   shift, and go to state 70
+    RETURN  shift, and go to state 71
+    LBRACE  shift, and go to state 62
+    ID      shift, and go to state 91
+
+    block                 go to state 75
+    statement             go to state 196
+    name                  go to state 79
+    conditionalStatement  go to state 80
+
+
+State 194
+
+  103 multibrackets: multibrackets LBRACK RBRACK .
+
+    $default  reduce using rule 103 (multibrackets)
+
+
+State 195
+
+   75 newExpression: NEW ID LPAREN arglist RPAREN .
+
+    $default  reduce using rule 75 (newExpression)
+
+
+State 196
+
+   61 conditionalStatement: IF LPAREN expression RPAREN statement ELSE statement .
+
+    $default  reduce using rule 61 (conditionalStatement)
