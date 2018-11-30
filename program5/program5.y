@@ -1,7 +1,7 @@
 //Loren Sether
 //Cosc 4785
 //Program 5
-//November 26th 2018
+//November 30th 2018
 
 %{
   #include<iostream>
@@ -113,29 +113,29 @@ classDeclaration: CLASS ID classBody {
   }
   ;
   
-classBody: LBRACE RBRACE {
-    $$ = new ClassBody(NULL,NULL,NULL,"");
-  }
-  | LBRACE classBodyMoreVar RBRACE {
-    $$ = new ClassBody($2,NULL,NULL,"1");
-  }
-  | LBRACE classBodyMoreConst RBRACE {
-    $$ = new ClassBody($2,NULL,NULL,"2");
-  }
-  | LBRACE classBodyMoreMethod RBRACE {
+classBody: LBRACE classBodyMoreMethod RBRACE {
     $$ = new ClassBody($2,NULL,NULL,"3");
   }
-  | LBRACE classBodyMoreVar classBodyMoreConst RBRACE {
-    $$ = new ClassBody($2,$3,NULL,"1");
-  }
-  | LBRACE classBodyMoreConst classBodyMoreMethod RBRACE {
-    $$ = new ClassBody($2,$3,NULL,"2");
+  | LBRACE classBodyMoreVar classBodyMoreConst classBodyMoreMethod RBRACE {
+    $$ = new ClassBody($2,$3,$4,"");
   }
   | LBRACE classBodyMoreVar classBodyMoreMethod RBRACE {
     $$ = new ClassBody($2,$3,NULL,"3");
   }
-  | LBRACE classBodyMoreVar classBodyMoreConst classBodyMoreMethod RBRACE {
-    $$ = new ClassBody($2,$3,$4,"");
+  | LBRACE classBodyMoreConst RBRACE {
+    $$ = new ClassBody($2,NULL,NULL,"2");
+  }
+  | LBRACE RBRACE {
+    $$ = new ClassBody(NULL,NULL,NULL,"");
+  }
+  | LBRACE classBodyMoreVar classBodyMoreConst RBRACE {
+    $$ = new ClassBody($2,$3,NULL,"1");
+  }
+  | LBRACE classBodyMoreVar RBRACE {
+    $$ = new ClassBody($2,NULL,NULL,"1");
+  }
+  | LBRACE classBodyMoreConst classBodyMoreMethod RBRACE {
+    $$ = new ClassBody($2,$3,NULL,"2");
   }
   | LBRACE error RBRACE {
     yyerrok;
@@ -168,7 +168,7 @@ classBodyMoreMethod: methodDeclaration {
   }
   ;
   
-  varDeclaration: type ID SEMI {
+varDeclaration: resultType ID SEMI {
     $$ = new VarDeclaration($1,NULL,NULL,$2);
   }
   ;
@@ -179,11 +179,11 @@ type: INT {
   | ID {
     $$ = new Type(NULL,NULL,NULL,$1,"");
   }
-  | INT LBRACK RBRACK{
-    $$ = new Type(NULL,NULL,NULL,"1","");
+  | INT multibrackets{
+    $$ = new Type($2,NULL,NULL,"1","");
   }
-  | ID LBRACK RBRACK{
-    $$ = new Type(NULL,NULL,NULL,$1,"1");
+  | ID multibrackets{
+    $$ = new Type($2,NULL,NULL,$1,"1");
   }
   ;
   

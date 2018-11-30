@@ -1,8 +1,8 @@
-//program4.cpp
+//program5.cpp
 //Loren Sether
 //COSC 4785 Fa18
 //Program 05
-//November 26th 2018
+//November 30th 2018
 
 #include<FlexLexer.h>
 #include"program5.hpp"
@@ -10,6 +10,7 @@
 using namespace std;
 
 Node *head;
+symbolTable *globalSymbolTable;
 
 yyFlexLexer scanner;
 
@@ -237,7 +238,7 @@ Type::Type(Node* l=NULL,Node* r=NULL,Node* n=NULL,
         cout << "int" <<endl;
       }
       else if(ropstr==("1")){
-        cout << "<Identifier> [] " <<endl;
+        cout << "<Identifier> <MultiBracket> " <<endl;
         cout << " <Identifier> --> "<<lopstr<<endl;
       }
       else{
@@ -1001,7 +1002,7 @@ int main()
   if(head != NULL) {
     cout << "\n\nAnd now the 'tree'\n\n";
     cout << " <Program> --> <ClassDeclaration>"<<endl<<endl;
-    //head->print();
+    head->print();
     cout << endl;
   }
   return 0;

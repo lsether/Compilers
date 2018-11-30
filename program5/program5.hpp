@@ -1,8 +1,8 @@
-//program4.hpp
+//program5.hpp
 //Loren Sether
 //COSC 4785 Fa18
 //Program 05
-//November 26th 2018
+//November 30, 2018
 
 #ifndef NODES_H
 #define NODES_H
@@ -10,6 +10,7 @@
 #include<string>
 #include<cstring>
 #include<fstream>
+#include"symbolTable.hpp"
 using namespace std;
 using std::string;
 extern string interface;
@@ -18,7 +19,7 @@ extern int line;
 extern int prevCol;
 extern int prevLine;
 extern int errors;
-
+extern symbolTable* globalSymbolTable;
 
 class Node 
 {
