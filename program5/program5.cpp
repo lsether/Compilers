@@ -10,7 +10,7 @@
 using namespace std;
 
 Node *head;
-symbolTable *globalSymbolTable;
+SymbolTable *globalSymbolTable;
 
 yyFlexLexer scanner;
 
@@ -38,6 +38,7 @@ ClassDeclaration::ClassDeclaration(Node* l=NULL, Node* r=NULL,Node* n=NULL,
          { 
            opstr=op;
          }
+        
          
          void ClassDeclaration::print() {
            cout <<" <ClassDeclaration> --> ";
@@ -998,12 +999,15 @@ int main()
 {
   //yydebug=1;
   head=NULL;
+  globalSymbolTable = new SymbolTable(NULL);
+  globalSymbolTable->scopeCounter = 0;
   yyparse();
-  if(head != NULL) {
-    cout << "\n\nAnd now the 'tree'\n\n";
-    cout << " <Program> --> <ClassDeclaration>"<<endl<<endl;
-    head->print();
-    cout << endl;
-  }
+  //if(head != NULL) {
+    //cout << "\n\nAnd now the 'tree'\n\n";
+    //cout << " <Program> --> <ClassDeclaration>"<<endl<<endl;
+    //head->print();
+    //cout << endl;
+  //}
+  globalSymbolTable->printEntries();
   return 0;
 }

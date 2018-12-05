@@ -14,6 +14,7 @@
   // these are declared in tester.cpp
   extern yyFlexLexer scanner;
   extern Node *head;
+  extern SymbolTable *globalSymbolTable;
   
   /*
    * And this is the magic to make this work with a C++ scanner.
@@ -94,6 +95,7 @@
   ;
   
 classDeclaration: CLASS ID classBody {
+    globalSymbolTable->addSymbolEntry($2, 'c');
     $$ = new ClassDeclaration($3,NULL,NULL,$2);
   }
   | CLASS error classBody {
@@ -169,6 +171,7 @@ classBodyMoreMethod: methodDeclaration {
   ;
   
 varDeclaration: resultType ID SEMI {
+    globalSymbolTable->addSymbolEntry($2, 'v');
     $$ = new VarDeclaration($1,NULL,NULL,$2);
   }
   ;
@@ -193,6 +196,7 @@ constructorDeclaration: ID LPAREN parameterList RPAREN block {
   ;
   
 methodDeclaration: resultType ID LPAREN parameterList RPAREN block {
+    globalSymbolTable->addSymbolEntry($2, 'm');
     $$ = new MethodDeclaration($1,$4,$6,$2);
   }
   ;

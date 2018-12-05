@@ -19,7 +19,7 @@ extern int line;
 extern int prevCol;
 extern int prevLine;
 extern int errors;
-extern symbolTable* globalSymbolTable;
+extern SymbolTable* globalSymbolTable;
 
 class Node 
 {
