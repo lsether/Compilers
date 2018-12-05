@@ -1001,6 +1001,7 @@ int main()
   head=NULL;
   globalSymbolTable = new SymbolTable(NULL);
   globalSymbolTable->scopeCounter = 0;
+  globalSymbolTable->valueNeeded = 0;
   yyparse();
   //if(head != NULL) {
     //cout << "\n\nAnd now the 'tree'\n\n";

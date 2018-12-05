@@ -13,8 +13,8 @@
   
   // these are declared in tester.cpp
   extern yyFlexLexer scanner;
-  extern Node *head;
   extern SymbolTable *globalSymbolTable;
+  extern Node *head;
   
   /*
    * And this is the magic to make this work with a C++ scanner.
@@ -95,7 +95,8 @@
   ;
   
 classDeclaration: CLASS ID classBody {
-    globalSymbolTable->addSymbolEntry($2, 'c');
+    globalSymbolTable->addSymbolEntry($2, "class", 'c');
+    globalSymbolTable->scopeCounter++;
     $$ = new ClassDeclaration($3,NULL,NULL,$2);
   }
   | CLASS error classBody {
@@ -171,21 +172,32 @@ classBodyMoreMethod: methodDeclaration {
   ;
   
 varDeclaration: resultType ID SEMI {
-    globalSymbolTable->addSymbolEntry($2, 'v');
+    if(globalSymbolTable->valueNeeded > 0){
+      globalSymbolTable->addSymbolEntry($2, globalSymbolTable->temp, 'v');
+      globalSymbolTable->valueNeeded = 0;
+    }
     $$ = new VarDeclaration($1,NULL,NULL,$2);
   }
   ;
   
 type: INT {
+    globalSymbolTable->valueNeeded=1;
+    globalSymbolTable->temp="int";
     $$ = new Type(NULL,NULL,NULL,"1","");
   }
   | ID {
+    globalSymbolTable->valueNeeded=1;
+    globalSymbolTable->temp=$1;
     $$ = new Type(NULL,NULL,NULL,$1,"");
   }
   | INT multibrackets{
+    globalSymbolTable->valueNeeded=1;
+    globalSymbolTable->temp="int multibrackets";
     $$ = new Type($2,NULL,NULL,"1","");
   }
   | ID multibrackets{
+    globalSymbolTable->valueNeeded=1;
+    globalSymbolTable->temp= $1 + " multibrackets";
     $$ = new Type($2,NULL,NULL,$1,"1");
   }
   ;
@@ -196,7 +208,8 @@ constructorDeclaration: ID LPAREN parameterList RPAREN block {
   ;
   
 methodDeclaration: resultType ID LPAREN parameterList RPAREN block {
-    globalSymbolTable->addSymbolEntry($2, 'm');
+    globalSymbolTable->addSymbolEntry($2, *'method', 'm');
+    globalSymbolTable->scopeCounter++;
     $$ = new MethodDeclaration($1,$4,$6,$2);
   }
   ;
@@ -239,9 +252,17 @@ block: LBRACE RBRACE {
   }
   
 localVarDeclaration: type ID SEMI {
+    if(globalSymbolTable->valueNeeded > 0){
+      globalSymbolTable->addSymbolEntry($2, globalSymbolTable->temp, 'v');
+      globalSymbolTable->valueNeeded = 0;
+    }
     $$ = new LocalVarDeclaration($1,NULL,NULL,$2);
   }
   | localVarDeclaration type ID SEMI {
+    if(globalSymbolTable->valueNeeded > 0){
+      globalSymbolTable->addSymbolEntry($3, globalSymbolTable->temp, 'v');
+      globalSymbolTable->valueNeeded = 0;
+    }
     $$ = new LocalVarDeclaration($1,$2,NULL,$3);
   }
   ;

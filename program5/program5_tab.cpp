@@ -73,8 +73,8 @@
   
   // these are declared in tester.cpp
   extern yyFlexLexer scanner;
-  extern Node *head;
   extern SymbolTable *globalSymbolTable;
+  extern Node *head;
   
   /*
    * And this is the magic to make this work with a C++ scanner.
@@ -508,17 +508,17 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    87,    87,    88,    92,    97,   101,   106,   111,   118,
-     121,   124,   127,   130,   133,   136,   139,   142,   149,   152,
-     157,   160,   165,   168,   173,   179,   182,   185,   188,   193,
-     198,   204,   207,   212,   215,   218,   223,   228,   231,   234,
-     237,   241,   244,   250,   253,   258,   261,   264,   267,   270,
-     273,   276,   279,   285,   288,   291,   294,   297,   303,   306,
-     309,   314,   317,   322,   325,   330,   334,   338,   341,   344,
-     347,   350,   351,   352,   353,   354,   359,   362,   365,   368,
-     371,   374,   377,   380,   383,   388,   391,   394,   399,   404,
-     409,   414,   419,   424,   431,   436,   441,   448,   453,   458,
-     463,   470,   473,   478,   481
+       0,    87,    87,    88,    92,    97,   102,   107,   112,   119,
+     122,   125,   128,   131,   134,   137,   140,   143,   150,   153,
+     158,   161,   166,   169,   174,   183,   188,   193,   198,   205,
+     210,   217,   220,   225,   228,   231,   236,   241,   244,   247,
+     250,   254,   261,   271,   274,   279,   282,   285,   288,   291,
+     294,   297,   300,   306,   309,   312,   315,   318,   324,   327,
+     330,   335,   338,   343,   346,   351,   355,   359,   362,   365,
+     368,   371,   372,   373,   374,   375,   380,   383,   386,   389,
+     392,   395,   398,   401,   404,   409,   412,   415,   420,   425,
+     430,   435,   440,   445,   452,   457,   462,   469,   474,   479,
+     484,   491,   494,   499,   502
 };
 #endif
 
@@ -1485,812 +1485,833 @@ yyreduce:
   case 5:
 #line 97 "program5.y" /* yacc.c:1646  */
     {
-    globalSymbolTable->addSymbolEntry((yyvsp[-1].str), 'c');
+    globalSymbolTable->addSymbolEntry((yyvsp[-1].str), "class", 'c');
+    globalSymbolTable->scopeCounter++;
     (yyval.n_type) = new ClassDeclaration((yyvsp[0].n_type),NULL,NULL,(yyvsp[-1].str));
   }
-#line 1492 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1493 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 101 "program5.y" /* yacc.c:1646  */
+#line 102 "program5.y" /* yacc.c:1646  */
     {
     yyerrok;
     cout<<"Error in classDeclaration"<<endl;
     (yyval.n_type)=new ClassDeclaration(NULL,NULL,NULL,"error");
   }
-#line 1502 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1503 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 106 "program5.y" /* yacc.c:1646  */
+#line 107 "program5.y" /* yacc.c:1646  */
     {
     yyerrok;
     cout<<"Error in classDeclaration"<<endl;
     (yyval.n_type)=new ClassDeclaration(NULL,NULL,NULL,"error");
   }
-#line 1512 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1513 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 111 "program5.y" /* yacc.c:1646  */
+#line 112 "program5.y" /* yacc.c:1646  */
     {
     yyerrok;
     cout<<"Error in classDeclaration"<<endl;
     (yyval.n_type)=new ClassDeclaration(NULL,NULL,NULL,"error");
   }
-#line 1522 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1523 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 118 "program5.y" /* yacc.c:1646  */
+#line 119 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ClassBody((yyvsp[-1].n_type),NULL,NULL,"3");
   }
-#line 1530 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1531 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 121 "program5.y" /* yacc.c:1646  */
+#line 122 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ClassBody((yyvsp[-3].n_type),(yyvsp[-2].n_type),(yyvsp[-1].n_type),"");
   }
-#line 1538 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1539 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 124 "program5.y" /* yacc.c:1646  */
+#line 125 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ClassBody((yyvsp[-2].n_type),(yyvsp[-1].n_type),NULL,"3");
   }
-#line 1546 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1547 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 127 "program5.y" /* yacc.c:1646  */
+#line 128 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ClassBody((yyvsp[-1].n_type),NULL,NULL,"2");
   }
-#line 1554 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1555 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 130 "program5.y" /* yacc.c:1646  */
+#line 131 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ClassBody(NULL,NULL,NULL,"");
   }
-#line 1562 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1563 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 133 "program5.y" /* yacc.c:1646  */
+#line 134 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ClassBody((yyvsp[-2].n_type),(yyvsp[-1].n_type),NULL,"1");
   }
-#line 1570 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1571 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 136 "program5.y" /* yacc.c:1646  */
+#line 137 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ClassBody((yyvsp[-1].n_type),NULL,NULL,"1");
   }
-#line 1578 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1579 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 139 "program5.y" /* yacc.c:1646  */
+#line 140 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ClassBody((yyvsp[-2].n_type),(yyvsp[-1].n_type),NULL,"2");
   }
-#line 1586 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1587 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 142 "program5.y" /* yacc.c:1646  */
+#line 143 "program5.y" /* yacc.c:1646  */
     {
     yyerrok;
     cout << "Error in classBody"<<endl;
     (yyval.n_type) = new ClassBody(NULL,NULL,NULL,"error");
   }
-#line 1596 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1597 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 149 "program5.y" /* yacc.c:1646  */
+#line 150 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ClassBodyMoreVar((yyvsp[0].n_type),NULL,NULL,"");
   }
-#line 1604 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1605 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 152 "program5.y" /* yacc.c:1646  */
+#line 153 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ClassBodyMoreVar((yyvsp[-1].n_type),(yyvsp[0].n_type),NULL,"");
   }
-#line 1612 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1613 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 157 "program5.y" /* yacc.c:1646  */
+#line 158 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ClassBodyMoreConst((yyvsp[0].n_type),NULL,NULL,"");
   }
-#line 1620 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1621 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 160 "program5.y" /* yacc.c:1646  */
+#line 161 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ClassBodyMoreConst((yyvsp[-1].n_type),(yyvsp[0].n_type),NULL,"");
   }
-#line 1628 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1629 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 165 "program5.y" /* yacc.c:1646  */
+#line 166 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ClassBodyMoreMethod((yyvsp[0].n_type),NULL,NULL,"");
   }
-#line 1636 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1637 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 168 "program5.y" /* yacc.c:1646  */
+#line 169 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ClassBodyMoreMethod((yyvsp[-1].n_type),(yyvsp[0].n_type),NULL,"");
   }
-#line 1644 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1645 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 173 "program5.y" /* yacc.c:1646  */
+#line 174 "program5.y" /* yacc.c:1646  */
     {
-    globalSymbolTable->addSymbolEntry((yyvsp[-1].str), 'v');
+    if(globalSymbolTable->valueNeeded > 0){
+      globalSymbolTable->addSymbolEntry((yyvsp[-1].str), globalSymbolTable->temp, 'v');
+      globalSymbolTable->valueNeeded = 0;
+    }
     (yyval.n_type) = new VarDeclaration((yyvsp[-2].n_type),NULL,NULL,(yyvsp[-1].str));
   }
-#line 1653 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1657 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 179 "program5.y" /* yacc.c:1646  */
+#line 183 "program5.y" /* yacc.c:1646  */
     {
+    globalSymbolTable->valueNeeded=1;
+    globalSymbolTable->temp="int";
     (yyval.n_type) = new Type(NULL,NULL,NULL,"1","");
   }
-#line 1661 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1667 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 182 "program5.y" /* yacc.c:1646  */
+#line 188 "program5.y" /* yacc.c:1646  */
     {
+    globalSymbolTable->valueNeeded=1;
+    globalSymbolTable->temp=(yyvsp[0].str);
     (yyval.n_type) = new Type(NULL,NULL,NULL,(yyvsp[0].str),"");
-  }
-#line 1669 "program5_tab.cpp" /* yacc.c:1646  */
-    break;
-
-  case 27:
-#line 185 "program5.y" /* yacc.c:1646  */
-    {
-    (yyval.n_type) = new Type((yyvsp[0].n_type),NULL,NULL,"1","");
   }
 #line 1677 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
-  case 28:
-#line 188 "program5.y" /* yacc.c:1646  */
+  case 27:
+#line 193 "program5.y" /* yacc.c:1646  */
     {
+    globalSymbolTable->valueNeeded=1;
+    globalSymbolTable->temp="int multibrackets";
+    (yyval.n_type) = new Type((yyvsp[0].n_type),NULL,NULL,"1","");
+  }
+#line 1687 "program5_tab.cpp" /* yacc.c:1646  */
+    break;
+
+  case 28:
+#line 198 "program5.y" /* yacc.c:1646  */
+    {
+    globalSymbolTable->valueNeeded=1;
+    globalSymbolTable->temp= (yyvsp[-1].str) + " multibrackets";
     (yyval.n_type) = new Type((yyvsp[0].n_type),NULL,NULL,(yyvsp[-1].str),"1");
   }
-#line 1685 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1697 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 193 "program5.y" /* yacc.c:1646  */
+#line 205 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ConstructorDeclaration((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,(yyvsp[-4].str));
   }
-#line 1693 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1705 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 198 "program5.y" /* yacc.c:1646  */
+#line 210 "program5.y" /* yacc.c:1646  */
     {
-    globalSymbolTable->addSymbolEntry((yyvsp[-4].str), 'm');
+    globalSymbolTable->addSymbolEntry((yyvsp[-4].str), *'method', 'm');
+    globalSymbolTable->scopeCounter++;
     (yyval.n_type) = new MethodDeclaration((yyvsp[-5].n_type),(yyvsp[-2].n_type),(yyvsp[0].n_type),(yyvsp[-4].str));
   }
-#line 1702 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1715 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 204 "program5.y" /* yacc.c:1646  */
+#line 217 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ResultType((yyvsp[0].n_type),NULL,NULL,"");
   }
-#line 1710 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1723 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 207 "program5.y" /* yacc.c:1646  */
+#line 220 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ResultType(NULL,NULL,NULL,"void");
   }
-#line 1718 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1731 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 212 "program5.y" /* yacc.c:1646  */
+#line 225 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ParameterList(NULL,NULL,NULL,"");
   }
-#line 1726 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1739 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 215 "program5.y" /* yacc.c:1646  */
+#line 228 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ParameterList((yyvsp[0].n_type),NULL,NULL,"");
   }
-#line 1734 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1747 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 218 "program5.y" /* yacc.c:1646  */
+#line 231 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ParameterList((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,",");
   }
-#line 1742 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1755 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 223 "program5.y" /* yacc.c:1646  */
+#line 236 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Parameter((yyvsp[-1].n_type),NULL,NULL,(yyvsp[0].str));
   }
-#line 1750 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1763 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 228 "program5.y" /* yacc.c:1646  */
+#line 241 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Block(NULL,NULL,NULL,"");
   }
-#line 1758 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1771 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 231 "program5.y" /* yacc.c:1646  */
+#line 244 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Block((yyvsp[-1].n_type),NULL,NULL,"<LocalVarDeclaration>");
   }
-#line 1766 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1779 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 234 "program5.y" /* yacc.c:1646  */
+#line 247 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Block((yyvsp[-1].n_type),NULL,NULL,"<Statement>");
   }
-#line 1774 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1787 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 237 "program5.y" /* yacc.c:1646  */
+#line 250 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Block((yyvsp[-2].n_type),(yyvsp[-1].n_type),NULL,"");
   }
-#line 1782 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1795 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 241 "program5.y" /* yacc.c:1646  */
+#line 254 "program5.y" /* yacc.c:1646  */
     {
+    if(globalSymbolTable->valueNeeded > 0){
+      globalSymbolTable->addSymbolEntry((yyvsp[-1].str), globalSymbolTable->temp, 'v');
+      globalSymbolTable->valueNeeded = 0;
+    }
     (yyval.n_type) = new LocalVarDeclaration((yyvsp[-2].n_type),NULL,NULL,(yyvsp[-1].str));
   }
-#line 1790 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1807 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 244 "program5.y" /* yacc.c:1646  */
+#line 261 "program5.y" /* yacc.c:1646  */
     {
+    if(globalSymbolTable->valueNeeded > 0){
+      globalSymbolTable->addSymbolEntry((yyvsp[-1].str), globalSymbolTable->temp, 'v');
+      globalSymbolTable->valueNeeded = 0;
+    }
     (yyval.n_type) = new LocalVarDeclaration((yyvsp[-3].n_type),(yyvsp[-2].n_type),NULL,(yyvsp[-1].str));
   }
-#line 1798 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1819 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 250 "program5.y" /* yacc.c:1646  */
+#line 271 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new StatementMore((yyvsp[0].n_type),NULL,NULL,"");
   }
-#line 1806 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1827 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 253 "program5.y" /* yacc.c:1646  */
+#line 274 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new StatementMore((yyvsp[-1].n_type),(yyvsp[0].n_type),NULL,"");
   }
-#line 1814 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1835 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 258 "program5.y" /* yacc.c:1646  */
+#line 279 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Statement(NULL,NULL,NULL,";");
   }
-#line 1822 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1843 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 261 "program5.y" /* yacc.c:1646  */
+#line 282 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Statement((yyvsp[-3].n_type),(yyvsp[-1].n_type),NULL,"1");
   }
-#line 1830 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1851 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 264 "program5.y" /* yacc.c:1646  */
+#line 285 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Statement((yyvsp[-4].n_type),(yyvsp[-2].n_type),NULL,"2");
   }
-#line 1838 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1859 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 267 "program5.y" /* yacc.c:1646  */
+#line 288 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Statement((yyvsp[-2].n_type),NULL,NULL,"2");
   }
-#line 1846 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1867 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 270 "program5.y" /* yacc.c:1646  */
+#line 291 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Statement((yyvsp[0].n_type),NULL,NULL,"3");
   }
-#line 1854 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1875 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 273 "program5.y" /* yacc.c:1646  */
+#line 294 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Statement((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,"5");
   }
-#line 1862 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1883 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 276 "program5.y" /* yacc.c:1646  */
+#line 297 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Statement((yyvsp[-1].n_type),NULL,NULL,"4");
   }
-#line 1870 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1891 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 279 "program5.y" /* yacc.c:1646  */
+#line 300 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Statement((yyvsp[0].n_type),NULL,NULL,"5");
   }
-#line 1878 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1899 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 285 "program5.y" /* yacc.c:1646  */
+#line 306 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type)= new Name(NULL,NULL,NULL,"this","");
   }
-#line 1886 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1907 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 288 "program5.y" /* yacc.c:1646  */
+#line 309 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type)= new Name(NULL,NULL,NULL,(yyvsp[0].str),"1");
   }
-#line 1894 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1915 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 291 "program5.y" /* yacc.c:1646  */
+#line 312 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Name((yyvsp[-2].n_type),NULL,NULL,".",(yyvsp[0].str));
   }
-#line 1902 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1923 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 294 "program5.y" /* yacc.c:1646  */
+#line 315 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Name((yyvsp[-1].n_type),(yyvsp[0].n_type),NULL,"","");
   }
-#line 1910 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1931 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 297 "program5.y" /* yacc.c:1646  */
+#line 318 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Name((yyvsp[0].n_type),NULL,NULL,(yyvsp[-1].str),"");
   }
-#line 1918 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1939 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 303 "program5.y" /* yacc.c:1646  */
+#line 324 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Arglist(NULL,NULL,NULL,"");
   }
-#line 1926 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1947 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 306 "program5.y" /* yacc.c:1646  */
+#line 327 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Arglist((yyvsp[0].n_type),NULL,NULL,"");
   }
-#line 1934 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1955 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 309 "program5.y" /* yacc.c:1646  */
+#line 330 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Arglist((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,",");
   }
-#line 1942 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1963 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 314 "program5.y" /* yacc.c:1646  */
+#line 335 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ConditionalStatement((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,"if()");
   }
-#line 1950 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1971 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 317 "program5.y" /* yacc.c:1646  */
+#line 338 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new ConditionalStatement((yyvsp[-4].n_type),(yyvsp[-2].n_type),(yyvsp[0].n_type),"if()else");
   }
-#line 1958 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1979 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 322 "program5.y" /* yacc.c:1646  */
+#line 343 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new OptionalExpression(NULL,NULL,NULL,"");
   }
-#line 1966 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1987 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 325 "program5.y" /* yacc.c:1646  */
+#line 346 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new OptionalExpression((yyvsp[0].n_type),NULL,NULL,"");
   }
-#line 1974 "program5_tab.cpp" /* yacc.c:1646  */
+#line 1995 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 330 "program5.y" /* yacc.c:1646  */
+#line 351 "program5.y" /* yacc.c:1646  */
     {
     //cout <<  "expr -> ID : " << $1 << endl;
     (yyval.n_type)= new Expression((yyvsp[0].n_type),NULL,NULL,"<Name>");
   }
-#line 1983 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2004 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 334 "program5.y" /* yacc.c:1646  */
+#line 355 "program5.y" /* yacc.c:1646  */
     {
     //cout << "expr -> NUM : " << $1 << endl;
     (yyval.n_type) = new Number(NULL,NULL,NULL,(yyvsp[0].str));
   }
-#line 1992 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2013 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 338 "program5.y" /* yacc.c:1646  */
+#line 359 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Expression(NULL,NULL,NULL,"null");
   }
-#line 2000 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2021 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 341 "program5.y" /* yacc.c:1646  */
+#line 362 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Expression((yyvsp[-3].n_type),(yyvsp[-1].n_type),NULL,"<Name> ( )");
   }
-#line 2008 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2029 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 344 "program5.y" /* yacc.c:1646  */
+#line 365 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Expression(NULL,NULL,NULL,"read ( )");
   }
-#line 2016 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2037 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 347 "program5.y" /* yacc.c:1646  */
+#line 368 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new Expression((yyvsp[0].n_type),NULL,NULL,"<NewExpression>");
   }
-#line 2024 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2045 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 354 "program5.y" /* yacc.c:1646  */
+#line 375 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type)=new Expression((yyvsp[-1].n_type),NULL,NULL,"");
   }
-#line 2032 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2053 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 359 "program5.y" /* yacc.c:1646  */
+#line 380 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new NewExpression((yyvsp[-1].n_type),NULL,NULL,(yyvsp[-3].str));
   }
-#line 2040 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2061 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 362 "program5.y" /* yacc.c:1646  */
+#line 383 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new NewExpression(NULL,NULL,NULL,"1");
   }
-#line 2048 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2069 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 78:
-#line 365 "program5.y" /* yacc.c:1646  */
+#line 386 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new NewExpression((yyvsp[0].n_type),NULL,NULL,"1");
   }
-#line 2056 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2077 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 368 "program5.y" /* yacc.c:1646  */
+#line 389 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new NewExpression((yyvsp[-1].n_type),(yyvsp[0].n_type),NULL,"");
   }
-#line 2064 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2085 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 371 "program5.y" /* yacc.c:1646  */
+#line 392 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new NewExpression((yyvsp[0].n_type),NULL,NULL,"2");
   }
-#line 2072 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2093 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 81:
-#line 374 "program5.y" /* yacc.c:1646  */
+#line 395 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new NewExpression(NULL,NULL,NULL,(yyvsp[0].str));
   }
-#line 2080 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2101 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 82:
-#line 377 "program5.y" /* yacc.c:1646  */
+#line 398 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new NewExpression(NULL,(yyvsp[0].n_type),NULL,(yyvsp[-1].str));
   }
-#line 2088 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2109 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 83:
-#line 380 "program5.y" /* yacc.c:1646  */
+#line 401 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new NewExpression((yyvsp[-1].n_type),(yyvsp[0].n_type),NULL,(yyvsp[-2].str));
   }
-#line 2096 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2117 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 383 "program5.y" /* yacc.c:1646  */
+#line 404 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new NewExpression(NULL,NULL,(yyvsp[0].n_type),(yyvsp[-1].str));
   }
-#line 2104 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2125 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 85:
-#line 388 "program5.y" /* yacc.c:1646  */
+#line 409 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new UnaryOp((yyvsp[0].n_type),NULL,"-");
   }
-#line 2112 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2133 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 86:
-#line 391 "program5.y" /* yacc.c:1646  */
+#line 412 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new UnaryOp((yyvsp[0].n_type),NULL,"+");
   }
-#line 2120 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2141 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 87:
-#line 394 "program5.y" /* yacc.c:1646  */
+#line 415 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new UnaryOp((yyvsp[0].n_type),NULL,"!");
   }
-#line 2128 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2149 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 88:
-#line 399 "program5.y" /* yacc.c:1646  */
+#line 420 "program5.y" /* yacc.c:1646  */
     {
     //$1->print(); cout << " -EQ exp- ";
     //$3->print(); cout << endl;
     (yyval.n_type)=new RelationOp((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,"==");
   }
-#line 2138 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2159 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 89:
-#line 404 "program5.y" /* yacc.c:1646  */
+#line 425 "program5.y" /* yacc.c:1646  */
     {
     //$1->print(); cout << " -NE exp- ";
     //$3->print(); cout << endl;
     (yyval.n_type)=new RelationOp((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,"!=");
   }
-#line 2148 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2169 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 90:
-#line 409 "program5.y" /* yacc.c:1646  */
+#line 430 "program5.y" /* yacc.c:1646  */
     {
     //$1->print(); cout << " -GE exp- ";
     //$3->print(); cout << endl;
     (yyval.n_type)=new RelationOp((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,">=");
   }
-#line 2158 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2179 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 91:
-#line 414 "program5.y" /* yacc.c:1646  */
+#line 435 "program5.y" /* yacc.c:1646  */
     {
     //$1->print(); cout << " -LE exp- ";
     //$3->print(); cout << endl;
     (yyval.n_type)=new RelationOp((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,"<=");
   }
-#line 2168 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2189 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 92:
-#line 419 "program5.y" /* yacc.c:1646  */
+#line 440 "program5.y" /* yacc.c:1646  */
     {
     //$1->print(); cout << " -GT exp- ";
     //$3->print(); cout << endl;
     (yyval.n_type)=new RelationOp((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,">");
   }
-#line 2178 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2199 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 93:
-#line 424 "program5.y" /* yacc.c:1646  */
+#line 445 "program5.y" /* yacc.c:1646  */
     {
     //$1->print(); cout << " -LT exp- ";
     //$3->print(); cout << endl;
     (yyval.n_type)=new RelationOp((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,"<");
   }
-#line 2188 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2209 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 94:
-#line 431 "program5.y" /* yacc.c:1646  */
+#line 452 "program5.y" /* yacc.c:1646  */
     {
     //$1->print(); cout << " -PLUS exp- ";
     //$3->print(); cout << endl;
     (yyval.n_type)=new SumOp((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,"+");
   }
-#line 2198 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2219 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 95:
-#line 436 "program5.y" /* yacc.c:1646  */
+#line 457 "program5.y" /* yacc.c:1646  */
     {
     //$1->print(); cout << " -MINUS exp- ";
     //$3->print(); cout << endl;
     (yyval.n_type)=new SumOp((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,"-");
   }
-#line 2208 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2229 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 96:
-#line 441 "program5.y" /* yacc.c:1646  */
+#line 462 "program5.y" /* yacc.c:1646  */
     {
     //$1->print(); cout << " -OR exp- ";
     //$3->print(); cout << endl;
     (yyval.n_type)=new SumOp((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,"||");
   }
-#line 2218 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2239 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 97:
-#line 448 "program5.y" /* yacc.c:1646  */
+#line 469 "program5.y" /* yacc.c:1646  */
     {
     //$1->print(); cout << " -TIMES exp- ";
     //$3->print(); cout << endl;
     (yyval.n_type)=new ProductOp((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,"*");
   }
-#line 2228 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2249 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 98:
-#line 453 "program5.y" /* yacc.c:1646  */
+#line 474 "program5.y" /* yacc.c:1646  */
     {
     //$1->print(); cout << " -DIV exp- ";
     //$3->print(); cout << endl;
     (yyval.n_type)=new ProductOp((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,"/");
   }
-#line 2238 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2259 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 99:
-#line 458 "program5.y" /* yacc.c:1646  */
+#line 479 "program5.y" /* yacc.c:1646  */
     {
     //$1->print(); cout << " -MOD exp- ";
     //$3->print(); cout << endl;
     (yyval.n_type)=new ProductOp((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,"%");
   }
-#line 2248 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2269 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 100:
-#line 463 "program5.y" /* yacc.c:1646  */
+#line 484 "program5.y" /* yacc.c:1646  */
     {
     //$1->print(); cout << " -AND exp- ";
     //$3->print(); cout << endl;
     (yyval.n_type)=new ProductOp((yyvsp[-2].n_type),(yyvsp[0].n_type),NULL,"&&");
   }
-#line 2258 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2279 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 101:
-#line 470 "program5.y" /* yacc.c:1646  */
+#line 491 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new BracketExp((yyvsp[-1].n_type),NULL,NULL);
   }
-#line 2266 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2287 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 102:
-#line 473 "program5.y" /* yacc.c:1646  */
+#line 494 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new BracketExp((yyvsp[-3].n_type),(yyvsp[-1].n_type),NULL);
   }
-#line 2274 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2295 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 103:
-#line 478 "program5.y" /* yacc.c:1646  */
+#line 499 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new MultiBracket(NULL,NULL,"[","]");
   }
-#line 2282 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2303 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
   case 104:
-#line 481 "program5.y" /* yacc.c:1646  */
+#line 502 "program5.y" /* yacc.c:1646  */
     {
     (yyval.n_type) = new MultiBracket((yyvsp[-2].n_type),NULL,"[","]");
   }
-#line 2290 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2311 "program5_tab.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 2294 "program5_tab.cpp" /* yacc.c:1646  */
+#line 2315 "program5_tab.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2518,4 +2539,4 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 486 "program5.y" /* yacc.c:1906  */
+#line 507 "program5.y" /* yacc.c:1906  */

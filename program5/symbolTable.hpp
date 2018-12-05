@@ -21,7 +21,7 @@ private:
   struct symbolEntry
   {
     string *name;
-    string value;
+    string *value;
     char type;
     int scope;
     SymbolTable* localSymbolTable;
@@ -32,34 +32,22 @@ private:
   
 public:
   int scopeCounter;
+  int valueNeeded;
+  string *temp;
   SymbolTable(SymbolTable* prev)
   {
     previous = prev;
   }
   
-  void addSymbolEntry(string *id, char type)
+  void addSymbolEntry(string *id, string *value, char type)
   {
     count = 0;
     string temp;
     cout << "Attempting to add " << *id << " of type " << type << endl;
     if(!symbolEntryExists(id, type))
     {
-      switch (type)
-      {
-        case 'i':
-          temp = "0";
-          break;
-        case 'm':
-          temp = "method";
-          scopeCounter++;
-          break;
-        case 'c':
-          temp = "class";
-          scopeCounter++;
-          break;
-      }
       
-      symbolEntry newSymbolEntry = {id,temp,type,scopeCounter,NULL};
+      symbolEntry newSymbolEntry = {id,value,type,scopeCounter,NULL};
       if(newSymbolEntry.type == 'm' || newSymbolEntry.type == 'c')
       {
         newSymbolEntry.localSymbolTable = new SymbolTable(this);
@@ -96,16 +84,42 @@ public:
       previous->printEntries();
       for(unsigned int i = 0; i < entries.size(); i++)
       {
-        cout << *entries.at(i).name << " " << entries.at(i).value << " "
-             << entries.at(i).type << " " << entries.at(i).scope << endl;
+        if(entries.at(i).type == 'c')
+        {
+          cout << *entries.at(i).name << " class_type" << entries.at(i).scope 
+               << endl;
+        }
+        else if(entries.at(i).type =='m')
+        {
+          cout << *entries.at(i).name << " method_type" << entries.at(i).scope 
+               << endl;
+        }
+        else
+        {
+          cout << *entries.at(i).name << " " << entries.at(i).value << " "
+               << entries.at(i).scope << endl;
+        }
       }
     }
     else
     {
       for(unsigned int i = 0; i < entries.size(); i++)
       {
-        cout << *entries.at(i).name << " " << entries.at(i).value << " "
-             << entries.at(i).type << " " << entries.at(i).scope << endl;
+        if(entries.at(i).type == 'c')
+        {
+          cout << *entries.at(i).name << " class_type" << entries.at(i).scope 
+               << endl;
+        }
+        else if(entries.at(i).type =='m')
+        {
+          cout << *entries.at(i).name << " method_type" << entries.at(i).scope 
+               << endl;
+        }
+        else
+        {
+          cout << *entries.at(i).name << " " << entries.at(i).value << " "
+               << entries.at(i).scope << endl;
+        }
       }
     }
   }
