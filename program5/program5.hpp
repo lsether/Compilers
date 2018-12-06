@@ -10,7 +10,6 @@
 #include<string>
 #include<cstring>
 #include<fstream>
-#include"symbolTable.hpp"
 using namespace std;
 using std::string;
 extern string interface;
@@ -19,7 +18,6 @@ extern int line;
 extern int prevCol;
 extern int prevLine;
 extern int errors;
-extern SymbolTable* globalSymbolTable;
 
 class Node 
 {
@@ -27,6 +25,7 @@ public:
   Node(Node* l,Node* r,Node* n);
   virtual ~Node();
   virtual void print()=0;
+  virtual void createSymbolTable();
   void setNext(Node *n);
   void setLeft(Node *n);
   void setRight(Node *n);
@@ -42,6 +41,7 @@ public:
   ClassDeclaration(Node* l, Node* r,Node* n,string* op);
   ClassDeclaration(Node* l, Node* r,Node* n,const char* op);
          
+         void createSymbolTable();
          void print();
          
          
@@ -54,6 +54,7 @@ public:
   ClassBody(Node* l, Node* r,Node* n,string* op);
   ClassBody(Node* l, Node* r,Node* n,const char* op);
          
+  void createSymbolTable();
          void print();
          
          
@@ -66,6 +67,7 @@ public:
   ClassBodyMoreVar(Node* l, Node* r,Node* n,string* op);
   ClassBodyMoreVar(Node* l, Node* r,Node* n,const char* op);
          
+  void createSymbolTable();
          void print();
          
          
@@ -78,6 +80,7 @@ public:
   ClassBodyMoreConst(Node* l, Node* r,Node* n,string* op);
   ClassBodyMoreConst(Node* l, Node* r,Node* n,const char* op);
          
+  void createSymbolTable();
          void print();
          
          
@@ -90,6 +93,7 @@ public:
   ClassBodyMoreMethod(Node* l, Node* r,Node* n,string* op);
   ClassBodyMoreMethod(Node* l, Node* r,Node* n,const char* op);
          
+  void createSymbolTable();
          void print();
          
          
@@ -102,6 +106,7 @@ public:
   VarDeclaration(Node* l, Node* r,Node* n,string* op);
   VarDeclaration(Node* l, Node* r,Node* n,const char* op);
          
+         void createSymbolTable();
          void print();
          
          
@@ -116,6 +121,7 @@ class Type: public Node {
     Type(Node* l,Node* r,Node* n,string* lop,const char* rop);
     Type(Node* l,Node* r,Node* n,const char* lop,const char* rop);
     
+    void createSymbolTable();
     void print();
     
     private:
@@ -128,6 +134,7 @@ class ConstructorDeclaration: public Node {
     ConstructorDeclaration(Node* l,Node* r,Node* n,string* op);
     ConstructorDeclaration(Node* l,Node* r,Node* n,const char* op);
     
+    void createSymbolTable();
     void print();
     
     private:
@@ -139,6 +146,7 @@ class MethodDeclaration: public Node {
     MethodDeclaration(Node* l,Node* r,Node* n,string* op);
     MethodDeclaration(Node* l,Node* r,Node* n,const char* op);
     
+    void createSymbolTable();
     void print();
     
     private:
@@ -150,6 +158,7 @@ class ResultType: public Node {
     ResultType(Node* l,Node* r,Node* n,string* op);
     ResultType(Node* l,Node* r,Node* n,const char* op);
     
+    void createSymbolTable();
     void print();
     
     private:
@@ -183,6 +192,7 @@ class Block: public Node {
     Block(Node* l,Node* r,Node* n,string* op);
     Block(Node* l,Node* r,Node* n,const char* op);
     
+    void createSymbolTable();
     void print();
     
     private:
@@ -194,6 +204,7 @@ class LocalVarDeclaration: public Node {
     LocalVarDeclaration(Node* l,Node* r,Node* n,string* op);
     LocalVarDeclaration(Node* l,Node* r,Node* n,const char* op);
     
+    void createSymbolTable();
     void print();
     
     private:

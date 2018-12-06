@@ -6,16 +6,22 @@
 
 #include<FlexLexer.h>
 #include"program5.hpp"
+#include"symbolTable.hpp"
 #include<iostream>
 using namespace std;
 
 Node *head;
 SymbolTable *globalSymbolTable;
+SymbolTable *currentSymbolTable;
+string temp;
 
 yyFlexLexer scanner;
 
 Node::Node(Node* l=NULL,Node* r=NULL,Node* n=NULL):
-      left(l),right(r),next(n){ }
+      left(l),right(r),next(n){
+        globalSymbolTable = new SymbolTable(NULL);
+        currentSymbolTable = globalSymbolTable;
+      }
 Node::~Node()
       {
          if(next != NULL) delete next;
@@ -25,6 +31,11 @@ Node::~Node()
       void Node::setNext(Node *n){next=n;}
       void Node::setLeft(Node *n){left=n;}
       void Node::setRight(Node *n){right=n;}
+void Node::createSymbolTable(){
+ if(left!=NULL)left->createSymbolTable();
+ if(right!=NULL)right->createSymbolTable();
+ if(next!=NULL)next->createSymbolTable(); 
+}
 
 ClassDeclaration::ClassDeclaration(Node* l=NULL, Node* r=NULL,Node* n=NULL,
                                string* op=NULL):
@@ -39,6 +50,17 @@ ClassDeclaration::ClassDeclaration(Node* l=NULL, Node* r=NULL,Node* n=NULL,
            opstr=op;
          }
         
+        void ClassDeclaration::createSymbolTable()
+        {
+          temp = "class_type";
+          currentSymbolTable->addSymbolEntry(opstr, temp, 'c');
+          currentSymbolTable = currentSymbolTable->getCurrentTable();
+          if(left!=NULL)
+          {
+            if(left!=NULL)left->createSymbolTable();
+          }
+          currentSymbolTable = currentSymbolTable->getParentTable();
+        }
          
          void ClassDeclaration::print() {
            cout <<" <ClassDeclaration> --> ";
@@ -65,6 +87,24 @@ ClassBody::ClassBody(Node* l=NULL, Node* r=NULL,Node* n=NULL,
          { 
            opstr=op;
          }
+         
+         void ClassBody::createSymbolTable()
+        {
+          if(left!=NULL&&right!=NULL&&next!=NULL){
+            if(left!=NULL)left->createSymbolTable();
+            if(right!=NULL)right->createSymbolTable();
+            if(next!=NULL)next->createSymbolTable();
+          }
+          else if(left!=NULL&&right!=NULL)
+          {
+            if(left!=NULL)left->createSymbolTable();
+            if(right!=NULL)right->createSymbolTable();
+          }
+          else if(left!=NULL)
+          {
+            if(left!=NULL)left->createSymbolTable();
+          }
+        }
          
          void ClassBody::print() {
            cout <<" <ClassBody> --> ";
@@ -118,6 +158,19 @@ ClassBodyMoreVar::ClassBodyMoreVar(Node* l=NULL, Node* r=NULL,Node* n=NULL,
            opstr=op;
          }
          
+         void ClassBodyMoreVar::createSymbolTable()
+        {
+          if(left!=NULL&&right!=NULL)
+          {
+            if(left!=NULL)left->createSymbolTable();
+            if(right!=NULL)right->createSymbolTable();
+          }
+          else if(left!=NULL)
+          {
+            if(left!=NULL)left->createSymbolTable();
+          }
+        }
+         
          void ClassBodyMoreVar::print() {
            if(left!=NULL&&right!=NULL)
            {
@@ -141,6 +194,19 @@ ClassBodyMoreConst::ClassBodyMoreConst(Node* l=NULL, Node* r=NULL,Node* n=NULL,
          { 
            opstr=op;
          }
+         
+         void ClassBodyMoreConst::createSymbolTable()
+        {
+          if(left!=NULL&&right!=NULL)
+          {
+            if(left!=NULL)left->createSymbolTable();
+            if(right!=NULL)right->createSymbolTable();
+          }
+          else if(left!=NULL)
+          {
+            if(left!=NULL)left->createSymbolTable();
+          }
+        }
          
          void ClassBodyMoreConst::print() {
            if(left!=NULL&&right!=NULL)
@@ -167,6 +233,19 @@ ClassBodyMoreMethod::ClassBodyMoreMethod(Node* l=NULL, Node* r=NULL,
            opstr=op;
          }
          
+         void ClassBodyMoreMethod::createSymbolTable()
+        {
+          if(left!=NULL&&right!=NULL)
+          {
+            if(left!=NULL)left->createSymbolTable();
+            if(right!=NULL)right->createSymbolTable();
+          }
+          else if(left!=NULL)
+          {
+            if(left!=NULL)left->createSymbolTable();
+          }
+        }
+         
          void ClassBodyMoreMethod::print() {
            if(left!=NULL&&right!=NULL)
            {
@@ -192,6 +271,16 @@ VarDeclaration::VarDeclaration(Node* l=NULL, Node* r=NULL,Node* n=NULL,
          { 
            opstr=op;
          }
+         
+        void VarDeclaration::createSymbolTable()
+        {
+          temp = "variable";
+          if(left!=NULL)
+          {
+            if(left!=NULL)left->createSymbolTable();
+          }
+          currentSymbolTable->addSymbolEntry(opstr, temp, 'v');
+        }
          
          void VarDeclaration::print() {
            cout <<" <VarDeclaration> --> ";
@@ -232,6 +321,25 @@ Type::Type(Node* l=NULL,Node* r=NULL,Node* n=NULL,
       ropstr=rop;
     }
     
+    void Type::createSymbolTable()
+        {
+          temp = "opstr";
+          if(lopstr==("1")&&left!=NULL)
+      {
+        temp = "int multibrackets";
+      }
+      else if(ropstr==("1")){
+        temp = lopstr + "multibrackets";
+      }
+      else if(lopstr==("1"))
+      {
+        temp = "int";
+      }
+      else{
+        temp = lopstr;
+      }
+        }
+    
     void Type::print() { 
       cout << " <Type> --> ";
       if(lopstr==("1"))
@@ -265,6 +373,19 @@ ConstructorDeclaration::ConstructorDeclaration(Node* l=NULL,Node* r=NULL,
       opstr=op;
     }
     
+    void ConstructorDeclaration::createSymbolTable()
+        {
+          temp = "constructor_type";
+          currentSymbolTable->addSymbolEntry(opstr, temp, 'k');
+          currentSymbolTable = currentSymbolTable->getCurrentTable();
+          if(left!=NULL&&right!=NULL)
+          {
+            if(left!=NULL)left->createSymbolTable();
+            if(right!=NULL)right->createSymbolTable();
+          }
+          currentSymbolTable = currentSymbolTable->getParentTable();
+        }
+    
     void ConstructorDeclaration::print() { 
       cout << " <ConstructorDeclaration> --> ";
       cout << opstr << " ( <ParameterList> ) <Block>"<<endl;
@@ -288,6 +409,23 @@ MethodDeclaration::MethodDeclaration(Node* l=NULL,Node* r=NULL,Node* n=NULL,
       opstr=op;
     }
     
+    void MethodDeclaration::createSymbolTable()
+        {
+          temp = "method_type";
+          if(left!=NULL)
+          {
+            if(left!=NULL)left->createSymbolTable();
+          }
+          currentSymbolTable->addSymbolEntry(opstr, temp, 'm');
+          currentSymbolTable = currentSymbolTable->getCurrentTable();
+          if(right!=NULL&&next!=NULL)
+          {
+            if(right!=NULL)right->createSymbolTable();
+            if(next!=NULL)next->createSymbolTable();
+          }
+          currentSymbolTable = currentSymbolTable->getParentTable();
+        }
+    
     void MethodDeclaration::print() { 
       cout << " <MethodDeclaration> --> ";
       cout << "<ResultType> " << opstr << " ( <ParameterList> ) <Block>"<<endl;
@@ -310,6 +448,15 @@ ResultType::ResultType(Node* l=NULL,Node* r=NULL,Node* n=NULL,
     { 
       opstr=op;
     }
+    
+    void ResultType::createSymbolTable()
+        {
+          temp = "variable";
+          if(left!=NULL)
+          {
+            if(left!=NULL)left->createSymbolTable();
+          }
+        }
     
     void ResultType::print() { 
       cout << " <ResultType> --> ";
@@ -394,6 +541,19 @@ Block::Block(Node* l=NULL,Node* r=NULL,Node* n=NULL,
   { 
     opstr=op;
   }
+  
+  void Block::createSymbolTable()
+        {
+          if(left!=NULL && opstr=="<LocalVarDeclaration>")
+          {
+            if(left!=NULL)left->createSymbolTable();
+          }
+          if(left!=NULL&&right!=NULL)
+          {
+            if(left!=NULL)left->createSymbolTable();
+          }
+        }
+  
   void Block::print() {
     cout << " <Block> --> ";
     if(left!=NULL&&right!=NULL)
@@ -424,6 +584,21 @@ LocalVarDeclaration::LocalVarDeclaration(Node* l=NULL,Node* r=NULL,Node* n=NULL,
   { 
     opstr=op;
   }
+  
+  void LocalVarDeclaration::createSymbolTable()
+        {
+          if(left!=NULL&&right!=NULL)
+          {
+            if(left!=NULL)left->createSymbolTable();
+            if(right!=NULL)right->createSymbolTable();
+          }
+          if(left!=NULL)
+          {
+            if(left!=NULL)left->createSymbolTable();
+          }
+          currentSymbolTable->addSymbolEntry(opstr, temp, 'v');
+        }
+  
   void LocalVarDeclaration::print() {
     cout << " <LocalVarDeclaration> --> ";
     if(left!=NULL&&right!=NULL)
@@ -999,10 +1174,10 @@ int main()
 {
   //yydebug=1;
   head=NULL;
-  globalSymbolTable = new SymbolTable(NULL);
-  globalSymbolTable->scopeCounter = 0;
-  globalSymbolTable->valueNeeded = 0;
   yyparse();
+      if(head!=NULL){
+  head->createSymbolTable();
+      }
   //if(head != NULL) {
     //cout << "\n\nAnd now the 'tree'\n\n";
     //cout << " <Program> --> <ClassDeclaration>"<<endl<<endl;

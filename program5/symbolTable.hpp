@@ -20,10 +20,9 @@ private:
   //For each entry
   struct symbolEntry
   {
-    string *name;
-    string *value;
+    string name;
+    string value;
     char type;
-    int scope;
     SymbolTable* localSymbolTable;
   };
   
@@ -31,38 +30,24 @@ private:
   SymbolTable* previous;
   
 public:
-  int scopeCounter;
-  int valueNeeded;
-  string *temp;
   SymbolTable(SymbolTable* prev)
   {
+    
+    count = 0;
     previous = prev;
   }
   
-  void addSymbolEntry(string *id, string *value, char type)
+  void addSymbolEntry(string id, string value, char type)
   {
-    count = 0;
-    string temp;
-    cout << "Attempting to add " << *id << " of type " << type << endl;
     if(!symbolEntryExists(id, type))
     {
       
-      symbolEntry newSymbolEntry = {id,value,type,scopeCounter,NULL};
-      if(newSymbolEntry.type == 'm' || newSymbolEntry.type == 'c')
+      symbolEntry newSymbolEntry = {id,value,type,NULL};
+if(newSymbolEntry.type=='m'||newSymbolEntry.type=='c'||newSymbolEntry.type=='k')
       {
         newSymbolEntry.localSymbolTable = new SymbolTable(this);
-        cout << newSymbolEntry.localSymbolTable->previous->count << endl;
       }
       entries.push_back(newSymbolEntry);
-      
-      cout << *entries.at(count).name << " successfully added with value " 
-           << entries.at(count).value << endl;
-      if(entries.at(count).localSymbolTable !=NULL)
-      {
-        cout << "Method/Class now has a symbol table with " 
-             << entries.at(count).localSymbolTable->count 
-             << " variables declared" << endl;
-      }
       count = count + 1;
     }
     else
@@ -72,13 +57,35 @@ public:
     
   }
   
-  void subScope()
+  SymbolTable* getCurrentTable()
   {
-    scopeCounter--;
+    if(entries.back().localSymbolTable != NULL)
+    {
+      return entries.back().localSymbolTable;
+    }
+    else
+    {
+      cerr << "Wrong" <<endl;
+    }
+    return NULL;
+  }
+  
+  SymbolTable* getParentTable()
+  {
+    if(entries.back().localSymbolTable->previous != NULL)
+    {
+      return entries.back().localSymbolTable->previous;
+    }
+    else
+    {
+      cerr << "Wrong" <<endl;
+    }
+    return NULL;
   }
   
   void printEntries()
   {
+    /*
     if(previous != NULL)
     {
       previous->printEntries();
@@ -86,20 +93,23 @@ public:
       {
         if(entries.at(i).type == 'c')
         {
-          cout << *entries.at(i).name << " class_type" << entries.at(i).scope 
-               << endl;
+          cout << entries.at(i).name << " class_type" << endl;
         }
         else if(entries.at(i).type =='m')
         {
-          cout << *entries.at(i).name << " method_type" << entries.at(i).scope 
-               << endl;
+          cout << entries.at(i).name << " method_type" << endl;
+        }
+        else if(entries.at(i).type =='k')
+        {
+          cout << entries.at(i).name << " constructor_type" << endl;
         }
         else
         {
-          cout << *entries.at(i).name << " " << entries.at(i).value << " "
-               << entries.at(i).scope << endl;
+          cout << entries.at(i).name << " " << entries.at(i).value << " "
+               << endl;
         }
       }
+      
     }
     else
     {
@@ -107,25 +117,36 @@ public:
       {
         if(entries.at(i).type == 'c')
         {
-          cout << *entries.at(i).name << " class_type" << entries.at(i).scope 
-               << endl;
+          cout << entries.at(i).name << " class_type" << endl;
         }
         else if(entries.at(i).type =='m')
         {
-          cout << *entries.at(i).name << " method_type" << entries.at(i).scope 
-               << endl;
+          cout << entries.at(i).name << " method_type" << endl;
+        }
+        else if(entries.at(i).type =='k')
+        {
+          cout << entries.at(i).name << " constructor_type" << endl;
         }
         else
         {
-          cout << *entries.at(i).name << " " << entries.at(i).value << " "
-               << entries.at(i).scope << endl;
+          cout << entries.at(i).name << " " << entries.at(i).value << " "
+               << endl;
         }
+      }
+    }
+    */
+    for(unsigned int i = 0; i < entries.size(); i++)
+    {
+      cout << entries.at(i).name << " " << entries.at(i).value << endl;
+      if(entries.at(i).localSymbolTable!=NULL)
+      {
+        entries.at(i).localSymbolTable->printEntries();
       }
     }
   }
   
   
-  bool symbolEntryExists(string *id, char type)
+  bool symbolEntryExists(string id, char type)
   {
     if(previous == NULL)
     {
@@ -149,6 +170,7 @@ public:
       }
       previous->symbolEntryExists(id, type);
     }
+    return false;
     
   }
 };
