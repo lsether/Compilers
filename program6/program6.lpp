@@ -1,0 +1,102 @@
+/*program6.lpp
+ * Loren Sether
+ * December 11, 2018
+ * COSC 4785 Program 6
+ * Fall 2018
+ * 
+ * flex input for program4
+ */
+
+%{
+#include<string>
+#include"program6.hpp"
+#include"program6_tab.hpp"
+
+void yyerror(const char *str)
+{
+  cerr <<"Line: "<<line<< " Column: "<<column<<" "<< str << endl;
+  return;
+}
+
+using std::string;
+string interface;
+int column = 1;
+int line = 1;
+int prevCol = 1;
+int prevLine = 1;
+int errors = 0;
+%}
+
+%x COMM
+%option noyywrap
+%option yylineno
+%option outfile="program6_lex.cpp"
+
+BEG_COMMENT     ("/*")
+END_COMMENT     ("*/")
+SINGLE_COMMENT  ("//"[^\n]*)
+ID              [_A-Za-z][_0-9A-Za-z]*
+DIGIT           [0-9]
+NUM             ({DIGIT}+)
+ER_CHAR         (.)
+ER_WORD         ["`""~""@""#""$""^""?"]+[_0-9A-Za-z]*
+
+%%
+{BEG_COMMENT} { BEGIN(COMM);column = column + 2;}
+<COMM>{END_COMMENT} { BEGIN(INITIAL); column = column + 2;}
+<COMM>. {prevCol = column; column = column + strlen(yytext);}
+<COMM>\n  {line = line + 1; column = 1;}
+{SINGLE_COMMENT}  {prevCol = column; column = column + strlen(yytext);}
+[ ]+    { column = column + strlen(yytext);}
+\t+     { column = column + 8;}
+this    { prevCol = column; column = column + strlen(yytext);return THIS;}
+int     { prevCol = column; column = column + strlen(yytext);return INT;}
+new     { prevCol = column; column = column + strlen(yytext);return NEW;}
+null    { prevCol = column; column = column + strlen(yytext);return NULLT;}
+read    { prevCol = column; column = column + strlen(yytext);return READ;}
+if      { prevCol = column; column = column + strlen(yytext);return IF;}
+else    { prevCol = column; column = column + strlen(yytext);return ELSE;}
+print   { prevCol = column; column = column + strlen(yytext);return PRINT;}
+while   { prevCol = column; column = column + strlen(yytext);return WHILE;}
+return  { prevCol = column; column = column + strlen(yytext);return RETURN;}
+void    { prevCol = column; column = column + strlen(yytext);return VOID;}
+class   { prevCol = column; column = column + strlen(yytext);return CLASS;}
+\+      { prevCol = column; column = column + strlen(yytext);return PLUS;}
+\-      { prevCol = column; column = column + strlen(yytext);return MINUS;}
+\|\|    { prevCol = column; column = column + strlen(yytext);return OR;}
+\*      { prevCol = column; column = column + strlen(yytext);return TIMES;}
+\/      { prevCol = column; column = column + strlen(yytext);return DIV;}
+\%      { prevCol = column; column = column + strlen(yytext);return MOD;}
+\&\&    { prevCol = column; column = column + strlen(yytext);return AND;}
+\=\=    { prevCol = column; column = column + strlen(yytext);return EQ;}
+\!\=    { prevCol = column; column = column + strlen(yytext);return NE;}
+\>\=    { prevCol = column; column = column + strlen(yytext);return GE;}
+\<\=    { prevCol = column; column = column + strlen(yytext);return LE;}
+\>      { prevCol = column; column = column + strlen(yytext);return GT;}
+\<      { prevCol = column; column = column + strlen(yytext);return LT;}
+\!      { prevCol = column; column = column + strlen(yytext);return NOT;}
+\=      { prevCol = column; column = column + strlen(yytext);return ASSIGN;}
+\(      { prevCol = column; column = column + strlen(yytext);return LPAREN;}
+\)      { prevCol = column; column = column + strlen(yytext);return RPAREN;}
+\[      { prevCol = column; column = column + strlen(yytext);return LBRACK;}
+\]      { prevCol = column; column = column + strlen(yytext);return RBRACK;}
+\{      { prevCol = column; column = column + strlen(yytext);return LBRACE;}
+\}      { prevCol = column; column = column + strlen(yytext);return RBRACE;}
+\;      { prevCol = column; column = column + strlen(yytext);return SEMI;}
+\,      { prevCol = column; column = column + strlen(yytext);return COMMA;}
+[_A-Za-z][_0-9A-Za-z]*  { prevCol = column; column = column + strlen(yytext);
+                          yylval.str=new string(yytext);return ID;}
+[0-9]+  { prevCol = column; column = column + strlen(yytext);
+          yylval.str=new string(yytext);return NUMBER;}
+\.      { prevCol = column; column = column + strlen(yytext);return DOT;}
+{ER_CHAR} { prevCol = column; column = column + strlen(yytext);
+            interface = yytext;errors = errors + 1; cout << "Line " 
+            <<line << " Column " << prevCol << " ER_CHAR: " << interface 
+            << endl;}
+{ER_WORD} { prevCol = column; column = column + strlen(yytext);
+            interface = yytext;errors = errors + 1; cout << "Line " 
+            <<line << " Column " << prevCol << " ER_WORD: " << interface 
+            << endl;}
+\n       {prevCol = column; prevLine = line; line = line + 1; column = 1;}
+%%
+          

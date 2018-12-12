@@ -1,0 +1,8 @@
+I used %define parse.error verbose to get the read of the errors being made to 
+the parser.  I then went into the lpp file for the cerr output to have line 
+number and column number print out with the error message.  I also did error
+checking in the bison file in the classDeclaration and classBody nodes.
+If they find an error it will print out line number column number and tell you
+there is an error in the classDeclaration or classBody area.
+
+Not the best completion but gets a symbol table.
